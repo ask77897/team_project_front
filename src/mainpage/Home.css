@@ -92,3 +92,7 @@ html, body {
     justify-content: center;
     margin-left: 170px;
 }
+
+.form{
+    border-radius: 50%;
+}

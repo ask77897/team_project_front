@@ -24,7 +24,6 @@ const UniversityList = () => {
   return (
     <div>
       {/* 가져온 데이터를 이용하여 UI를 렌더링하는 부분 추가 */}
-      <h1>대학교 정보</h1>
     </div>
   );
 };
