@@ -1,0 +1,98 @@
+
+.container {
+    width: auto;
+    margin-bottom: 0;
+    width: auto;
+    
+}
+
+.box {
+    background-color: #ffffff;
+    padding: var(--gap);
+    display: flex;
+    gap: var(--gap);
+    margin: 50px;
+    margin-left: 100px;
+    width: auto;
+}
+
+.box-sidebar{
+    width: auto;
+    background-color: #ffffff;
+    padding: var(--gap);
+    margin-top: 0%; 
+
+}
+
+.box-contents{
+    flex-grow: 1;
+    margin-right: 300px;
+    
+}
+
+.fifty-percent {
+    border-radius: 50%;
+}
+
+html, body {
+    width: auto;
+    height: 100%
+}
+
+#wrap {
+    min-height: 100%;
+    position: relative;
+    padding-bottom: 60px;
+    width: auto;
+}
+
+#div{
+    width: auto;
+    height: 500px;
+    position: absolute;
+    margin: -250px -250px;
+
+}
+
+.content_title {
+    margin-bottom: 12px;
+    font-size: 28px;
+    text-align: center;
+    margin-left: 120px;
+}
+
+.loginbox{
+    position: absolute;
+    top: 10;
+    right: 0;
+    width: 100px;
+    height: 90px;
+    padding-top: 10px;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+}
+
+.email{
+    height: 0px;
+    padding-left: 15px;
+    font-size: 14px;
+}
+
+.password{
+    height: 50px;
+    padding-left: 0px;
+    font-size: 14px;
+}
+
+.image01{
+    font-size: 200px;
+    margin-right: 50px;
+    margin-top: 150px;
+    justify-content: center;
+    margin-left: 170px;
+}
+
+.form{
+    border-radius: 50%;
+}
