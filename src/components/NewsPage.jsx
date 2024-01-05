@@ -13,7 +13,7 @@ const NewsPage = () => {
     const navi = useNavigate();
     const search = new URLSearchParams(location.search);
     const page = search.get("page") ? parseInt(search.get("page")) : 2;
-    const [query, setQuery] = useState(search.get("query") ? search.get("query") : "뉴스");
+    const [query, setQuery] = useState(search.get("query") ? search.get("query") : "이슈");
     const [loading, setLoading] = useState(false);
     const [nowss, setNowss] = useState([]);
     const [total, setTotal] = useState(0);
@@ -53,21 +53,29 @@ const NewsPage = () => {
         navi(`${path}?query=${query}&page=${page}`);
     }
 
+    function createMarkup() {
+        return { __html: 'First &middot; Second' };
+    }
+
+    function MyComponent() {
+        return <div dangerouslySetInnerHTML={createMarkup()} />;
+    }
+
     return (
-        <div>
-            <h5 className='text-center'>오늘의 뉴스</h5>
+        <div className='card'>
+
             <Table striped>
                 <thead onSubmit={onSubmit}>
+                    <h5 className='text-center'>오늘의 뉴스</h5>
                     {nowss.map(nows =>
-                        <ul className='text-center' key={nows.url}>
-                            <li>
-                                
+                        <tr className='board' key={nows.url}>
+                            <td>
                                 <Link to={nows.url}
                                     style={{ textDecoration: "none", color: 'black' }}>
-                                    {nows.title}
+                                    <div dangerouslySetInnerHTML={{ __html: nows.title }} />
                                 </Link>
-                            </li>
-                        </ul>
+                            </td>
+                        </tr>
                     )}
                 </thead>
             </Table>

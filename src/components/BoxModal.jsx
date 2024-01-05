@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { Button, Modal } from 'react-bootstrap';
 import { BoxContext } from './BoxContext';
 
+
 const BoxModal = () => {
     const { box, setBox } = useContext(BoxContext);
     const onClose = () => {

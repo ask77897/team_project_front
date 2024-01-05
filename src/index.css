@@ -1,19 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Sunflower:wght@500&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Sunflower:wght@500&display=swap'); */
 
 * {
-	font-family: 'Sunflower', sans-serif;
-	padding: 0;
-	padding-top: 0px;
-	padding-right: 0px;
-	padding-bottom: 0px;
-	padding-left: 0px;
-	margin: 0;
-    margin-top: 0px;
-    margin-right: 0px;
-    margin-bottom: 0px;
-    margin-left: 0px;
-	margin-bottom: 0rem;
-	padding-left: 0rem;
-    
-
+    position: relative;
+    -webkit-text-size-adjust: none;
+    font-weight: 400;
+    font-family: "Apple SD Gothic Neo", "맑은 고딕", "Malgun Gothic", 돋움, dotum, sans-serif;
 }
