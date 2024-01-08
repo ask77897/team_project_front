@@ -28,6 +28,23 @@ const MarkInfo = () => {
         getMarket();
     }, []);
 
+    const onClickHeart = async (sid) => {
+        if (sessionStorage.getItem("uid")) {
+            await axios.post('/market/insert',
+                { uid: sessionStorage.getItem("uid"), sid: sid });
+            getMarket();
+        } else {
+            sessionStorage.setItem("target", location.pathname);
+            navi('/users/login');
+        }
+    }
+
+    const onClickFillHeart = async (sid) => {
+        await axios.post('/market/delete',
+            { uid: sessionStorage.getItem("uid"), sid: sid });
+        getMarket();
+    }
+
     if (loading) return <div className='my-5 text-center'><Spinner variant='primary' /></div>
 
     return (
@@ -66,7 +83,7 @@ const MarkInfo = () => {
                         <div className='px-3'>{market.contents}</div>
                     </Tab>
                     <Tab eventKey="review" title="댓글">
-                        <CommentPage location={location} setMarket={setMarket} market={market}/>
+                        <CommentPage location={location} setMarket={setMarket} market={market} />
                     </Tab>
                 </Tabs>
             </div>

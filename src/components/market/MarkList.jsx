@@ -55,7 +55,7 @@ const MarkList = () => {
 
     const onDelete = async (sid) => {
         if (!window.confirm(`${sid}번 도서를 삭제하실래요?`)) return;
-        const res = await axios.post('/market/delete', { sid });
+        const res = await axios.get(`/market/delete/${sid}`);
         if (res.data === 0) {
             alert("삭제 실패!");
         } else {
@@ -74,7 +74,7 @@ const MarkList = () => {
         setMarkets(list);
     };
 
-    const onClickDelete = async () => {
+    const onClickDelete = async (sid) => {
         if (chcnt == 0) {
             setBox({
                 show: true,
@@ -88,7 +88,7 @@ const MarkList = () => {
                 action: async () => {
                     for (const market of markets) {
                         if (market.checked) {
-                            const res = await axios.post('/market/delete', { sid: market.sid });
+                            const res = await axios.post(`/market/delete`, { sid: markets.sid });
                             if (res.data === 1) count++;
                         }
                     }

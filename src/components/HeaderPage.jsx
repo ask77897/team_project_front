@@ -12,7 +12,7 @@ const HeaderPage = () => {
                 <NavLink href="/home" className="home">LOGO</NavLink>
                 <Nav>
                     <Nav.Link href={"/home"}>홈페이지</Nav.Link>
-                    <Nav.Link href={"/post/list"}>자유게시판</Nav.Link>
+                    <Nav.Link href={"/posts/list"}>자유게시판</Nav.Link>
                     <Nav.Link href={"/users/calender"}>일정관리</Nav.Link>
                     <Nav.Link to={"/school/restaurant"}>맛집</Nav.Link>
                     <Nav.Link to={"/school/talk"}>소통</Nav.Link>

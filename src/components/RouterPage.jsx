@@ -16,8 +16,8 @@ const RouterPage = () => {
     return (
         <Routes>
             <Route path='/home' element={<HeaderPage />} />
-            <Route path='/post/list' element={<PostList />} />
-            <Route path='/post/write' element={<Gesipan />} />
+            <Route path='/posts/list' element={<PostList />} />
+            <Route path='/posts/write' element={<Gesipan />} />
 
             <Route path='/users/calender' element={<TimetableMonth />} />
 
