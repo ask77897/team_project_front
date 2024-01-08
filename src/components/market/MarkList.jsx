@@ -46,12 +46,12 @@ const MarkList = () => {
 
     const onChangePage = (page) => {
         navi(`${path}?page=${page}&query=${query}&size=${size}`);
-    }
+    };
 
     const onSubmit = (e) => {
         e.preventDefault();
         navi(`${path}?page=1&query=${query}&size=${size}`);
-    }
+    };
 
     const onDelete = async (sid) => {
         if (!window.confirm(`${sid}번 도서를 삭제하실래요?`)) return;
@@ -62,17 +62,17 @@ const MarkList = () => {
             alert("삭제 성공!");
             getMarkets();
         }
-    }
+    };
 
     const onChangeAll = (e) => {
         const list = markets.map(market => market && { ...market, checked: e.target.checked });
         setMarkets(list);
-    }
+    };
 
     const onChangeSingle = (e, sid) => {
         const list = markets.map(market => market.sid === sid ? { ...market, checked: e.target.checked } : market);
         setMarkets(list);
-    }
+    };
 
     const onClickDelete = async () => {
         if (chcnt == 0) {
@@ -95,14 +95,14 @@ const MarkList = () => {
                     setMarkets({ show: true, message: `${count}권 삭제 되었습니다!` });
                     navi(`${path}?page=1&query=${query}&size=${size}`);
                 }
-            })
+            });
         }
-    }
+    };
 
     if (loading) return <div className='my-5 text-center'><Spinner variant='primary' /></div>
 
     return (
-        <div><h3 className='my-4'><img src='/images/deal.png' width="50px" style={{ paddingRight: '10px' }} />중고서적 장터</h3>
+        <div><h3 className='my-4'>중고서적 장터</h3>
             <Row>
                 <Col md={4}>
                     <form onSubmit={onSubmit}>
@@ -113,6 +113,9 @@ const MarkList = () => {
                         </InputGroup>
                     </form>
                 </Col>
+                <div className='text-end'>
+                    <button className='post-view-go-list-btn' onClick={() => navi('/market/write')}>게시글쓰기</button>
+                </div>
             </Row>
             <hr />
             <Table>
@@ -159,7 +162,7 @@ const MarkList = () => {
                     onChange={onChangePage} />
             }
         </div>
-    )
+    );
 }
 
-export default MarkList
+export default MarkList;
