@@ -72,7 +72,7 @@ const NewsPage = () => {
             <div onClick={() => onChangeEllipsis(nowss.url)} style={{ cursor: 'pointer' }}>
                 <Table striped>
                     <thead onSubmit={onSubmit}>
-                        <h5 className='text-center'>오늘의 뉴스</h5>
+                        <h5 className='text-center' style={{fontSize: '50px'}}><b>오늘의 뉴스</b></h5>
                         {nowss.map(nows =>
                             <tr className='board' key={nows.url}>
                                 <td>

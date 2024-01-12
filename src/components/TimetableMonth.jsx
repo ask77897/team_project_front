@@ -2,6 +2,7 @@ import React from 'react';
 import '../App.css';
 import { Inject, ScheduleComponent, Day, Week, WorkWeek, Month, Agenda, EventSettingsModel } from '@syncfusion/ej2-react-schedule';
 import { Link } from 'react-router-dom';
+import { IoArrowBack } from "react-icons/io5";
 
 class App extends React.Component {
     constructor(props) {
@@ -44,7 +45,7 @@ class App extends React.Component {
                     <Inject services={[Day, Week, WorkWeek, Month, Agenda]} />
                 </ScheduleComponent>
                 <div className='text-end'>
-                    <Link to={"/home"}><button className="post-view-go-list-btn">홈으로 돌아가기</button></Link>
+                    <Link to={"/home"}><button className="post-view-go-list-btn"><IoArrowBack /></button></Link>
                 </div>
             </>
 

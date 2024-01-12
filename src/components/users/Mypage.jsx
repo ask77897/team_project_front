@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Spinner, Row, Col, Button, Card } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { IoHomeSharp } from "react-icons/io5";
 
 const MyPage = () => {
     const navi = useNavigate();
@@ -53,9 +54,7 @@ const MyPage = () => {
         <div className='my-5'>
             <i class="bi bi-house-door"
                 style={{ marginLeft: '10px', fontSize: '30px', cursor: 'pointer' }}
-                onClick={() => navi('/')}
-            >
-            </i>
+                onClick={() => navi('/')}></i>
             <h1 className='text-center mb-5'>마이페이지</h1>
             <Row className='justify-content-center mx-3'>
                 <Col md={8}>

@@ -6,6 +6,10 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
+import { IoIosSearch } from "react-icons/io";
+import { IoHomeSharp } from "react-icons/io5";
+import MainCarousels from './MainCarousels';
+import { PiCoffeeFill } from "react-icons/pi";
 
 
 const HomePage = () => {
@@ -99,7 +103,7 @@ const HomePage = () => {
                     <div style={{ width: '100%' }} className='box-contents'>
                         <div>
                             <div className='image01'>
-                                <i class="bi bi-airplane-engines"></i>
+                                <PiCoffeeFill />
                             </div>
                         </div>
                         <div className='text-center'>
@@ -153,8 +157,7 @@ const HomePage = () => {
                                                     onChange={handleSearchChange} />
                                                 <i onClick={handleSearchSubmit}
                                                     style={{ marginLeft: '5px' }}
-                                                    type="button"
-                                                    className="bi bi-search"></i>
+                                                    type="button"><IoIosSearch /></i>
                                                 <Button className='content_texts' style={{ marginLeft: '5px', borderRadius: '20px', color: 'black' }} variant="warning" onClick={handleSearchCancel}>검색취소</Button>
                                                 <div style={{ marginTop: '5px' }} id="section-items" className='items'>
                                                     <InfiniteScroll
@@ -184,6 +187,7 @@ const HomePage = () => {
                     </div>
                 </Col>
             </Row>
+            <MainCarousels />
         </div>
 
     );

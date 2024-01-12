@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Col, InputGroup, Row, Form, Table, Spinner, Button } from 'react-bootstrap'
+import { Col, InputGroup, Row, Form, Table, Spinner, Button, Badge } from 'react-bootstrap'
 import { useLocation, useNavigate, NavLink, Link } from 'react-router-dom';
 import { BoxContext } from '../BoxContext';
 import axios from 'axios';
@@ -141,7 +141,7 @@ const MarkList = () => {
                             <td>{market.sid}</td>
                             <td width="30%">
                                 <Link to={`/market/read/${market.sid}`}>
-                                    <div className='ellipsis'>{market.title}</div>
+                                    <div className='ellipsis'>{market.title}<Badge bg="secondary" >New</Badge></div>
                                 </Link>
                             </td>
                             <td>{market.uid}</td>

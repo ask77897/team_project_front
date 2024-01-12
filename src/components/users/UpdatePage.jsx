@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { InputGroup, Form, Button, Col, Row, Spinner, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import ModalPostCode from './ModalPostCode';
+import { IoHomeSharp } from "react-icons/io5";
 
 const UpdatePage = () => {
     const navi = useNavigate();
@@ -85,8 +86,7 @@ const UpdatePage = () => {
             </i>
             <i class="bi bi-house-door"
                 style={{ marginLeft: '10px', fontSize: '30px', cursor: 'pointer' }}
-                onClick={() => navi('/')}
-            >
+                onClick={() => navi('/')}>
             </i>
             <h1 className='text-center mb-5'>정보수정</h1>
             <Row className='justify-content-center'>

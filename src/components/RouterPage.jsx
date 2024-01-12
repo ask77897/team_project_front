@@ -38,8 +38,8 @@ const RouterPage = () => {
             {/* <Route path="/market/update" element={<MarketUpdate/>}/> */}
             <Route path="/market/insert" element={<MarkInsert />} />
 
-            <Route path="/market/comment/list" element={<CommentList />} />
-            <Route path="/market/comment/insert" element={<Comments />} />
+            {/* <Route path="/market/comment/list" element={<CommentList />} />
+            <Route path="/market/comment/insert" element={<Comments />} /> */}
         </Routes>
     )
 }
