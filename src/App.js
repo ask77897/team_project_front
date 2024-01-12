@@ -19,8 +19,8 @@ const App = () =>{
 		<BoxContext.Provider value={{box, setBox}}>
             <Container>
                 <HeaderPage/>
-                <RouterPage/>
                 {box.show && <BoxModal/>}
+                <RouterPage/>
             </Container>
         </BoxContext.Provider>
 	);

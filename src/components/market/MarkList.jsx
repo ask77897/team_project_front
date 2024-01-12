@@ -1,22 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Col, InputGroup, Row, Form, Table, Spinner, Button } from 'react-bootstrap'
-import { useLocation, useNavigate, NavLink } from 'react-router-dom';
+import { useLocation, useNavigate, NavLink, Link } from 'react-router-dom';
 import { BoxContext } from '../BoxContext';
 import axios from 'axios';
 import Pagination from 'react-js-pagination';
 import '../Pagination.css';
+import { IoMdSearch } from "react-icons/io";
+import { MdDeleteForever } from "react-icons/md";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 const MarkList = () => {
 
     const { box, setBox } = useContext(BoxContext);
-    const size = 5;
+    const size = 10;
     const location = useLocation();
     const navi = useNavigate();
     const path = location.pathname;
     const search = new URLSearchParams(location.search);
     const page = search.get("page") ? parseInt(search.get("page")) : 1;
     const [query, setQuery] = useState(search.get("query") ? search.get("query") : "");
-    console.log(path, query, page, size);
+    //console.log(path, query, page, size);
     const [markets, setMarkets] = useState([]);
     const [loading, setLoading] = useState(false);
     const [total, setTotal] = useState(0);
@@ -36,7 +39,7 @@ const MarkList = () => {
 
     useEffect(() => {
         getMarkets();
-    }, [location]);
+    }, [location, query, page, size]);
 
     useEffect(() => {
         let cnt = 0;
@@ -50,16 +53,17 @@ const MarkList = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        // 검색 버튼 클릭 시 페이지를 1로 초기화하여 새로운 데이터를 불러옴
         navi(`${path}?page=1&query=${query}&size=${size}`);
     };
 
     const onDelete = async (sid) => {
         if (!window.confirm(`${sid}번 도서를 삭제하실래요?`)) return;
-        const res = await axios.get(`/market/delete/${sid}`);
+        const res = await axios.get(`/market/delete`);
         if (res.data === 0) {
             alert("삭제 실패!");
         } else {
-            alert("삭제 성공!");
+            alert("삭제되었습니다.");
             getMarkets();
         }
     };
@@ -88,7 +92,7 @@ const MarkList = () => {
                 action: async () => {
                     for (const market of markets) {
                         if (market.checked) {
-                            const res = await axios.post(`/market/delete`, { sid: markets.sid });
+                            const res = await axios.get(`/market/delete`, { sid: markets.sid });
                             if (res.data === 1) count++;
                         }
                     }
@@ -102,55 +106,54 @@ const MarkList = () => {
     if (loading) return <div className='my-5 text-center'><Spinner variant='primary' /></div>
 
     return (
-        <div><h3 className='my-4'>중고서적 장터</h3>
+        <div className='content_texts'><h3 className='my-4'>중고서적 장터</h3>
             <Row>
                 <Col md={4}>
                     <form onSubmit={onSubmit}>
                         <label>검색수: {total}권</label>
                         <InputGroup>
                             <Form.Control value={query} onChange={(e) => setQuery(e.target.value)} />
-                            <button className='post-view-go-list-btn'>검색</button>
+                            <Button variant='light' style={{ color: 'black', borderRadius: '20px', fontSize: '13px', marginLeft: '10px' }}><IoMdSearch /> </Button>
                         </InputGroup>
                     </form>
                 </Col>
                 <div className='text-end'>
-                    <button className='post-view-go-list-btn' onClick={() => navi('/market/write')}>게시글쓰기</button>
+                    <Button variant='warning' style={{ color: 'black', borderRadius: '20px', fontSize: '13px' }} onClick={() => navi('/market/insert')}>게시글쓰기</Button>
                 </div>
             </Row>
             <hr />
             <Table>
                 <thead>
                     <tr className='text-center'>
-                        <th>글번호</th><th>제목</th><th>작성자</th><th>작성일</th><th>가격</th><th>상태</th>
                         <td><input checked={markets.length === chcnt}
-                            type='checkbox' onChange={onChangeAll} /></td>
+                            type='checkbox' onChange={onChangeAll} /></td><th>글번호</th><th>제목</th><th>작성자</th><th>작성일</th><th>가격</th><th>상태</th>
+                        <td>
+                            <Button variant='light' style={{ color: 'black', borderRadius: '20px', fontSize: '13px' }}
+                                onClick={onClickDelete}>선택삭제<MdDeleteForever /></Button>
+                        </td>
                     </tr>
                 </thead>
                 <tbody className='text-center'>
                     {markets.map(market =>
                         <tr key={market.sid}>
+                            <td><input onChange={(e) => onChangeSingle(e, market.sid)}
+                                type='checkbox' checked={market.checked} /></td>
                             <td>{market.sid}</td>
                             <td width="30%">
-                                <div className='ellipsis'>
-                                    <NavLink to={`/market/read/${market.sid}`}>{market.title}</NavLink>
-                                </div>
+                                <Link to={`/market/read/${market.sid}`}>
+                                    <div className='ellipsis'>{market.title}</div>
+                                </Link>
                             </td>
                             <td>{market.uid}</td>
                             <td>{market.fmtdate}</td>
                             <td>{market.fmtprice}</td>
                             <td>{market.category}</td>
-                            <td><input onChange={(e) => onChangeSingle(e, market.sid)}
-                                type='checkbox' checked={market.checked} /></td>
-                            <td><Button onClick={() => onDelete(market.sid)}
-                                size='sm' variant="info">삭제</Button></td>
+                            <td><Button variant='light' style={{ color: 'black', borderRadius: '20px', fontSize: '13px' }} onClick={() => onDelete(market.sid)}
+                                size='sm'><RiDeleteBinLine /></Button></td>
                         </tr>
                     )}
                 </tbody>
             </Table>
-            <div className='text-end'>
-                <button className='post-view-go-list-btn'
-                    onClick={onClickDelete}>선택삭제</button>
-            </div>
             {total > size &&
                 <Pagination
                     activePage={page}

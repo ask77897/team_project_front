@@ -44,7 +44,7 @@ class App extends React.Component {
                     <Inject services={[Day, Week, WorkWeek, Month, Agenda]} />
                 </ScheduleComponent>
                 <div className='text-end'>
-                    <Link to={"/"}><button className="post-view-go-list-btn">홈으로 돌아가기</button></Link>
+                    <Link to={"/home"}><button className="post-view-go-list-btn">홈으로 돌아가기</button></Link>
                 </div>
             </>
 

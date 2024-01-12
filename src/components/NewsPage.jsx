@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Table } from 'react-bootstrap'
 import { BoxContext } from './BoxContext';
+import '../App.css';
 
 
 const NewsPage = () => {
@@ -13,7 +14,7 @@ const NewsPage = () => {
     const navi = useNavigate();
     const search = new URLSearchParams(location.search);
     const page = search.get("page") ? parseInt(search.get("page")) : 2;
-    const [query, setQuery] = useState(search.get("query") ? search.get("query") : "이슈");
+    const [query, setQuery] = useState(search.get("query") ? search.get("query") : "뉴스");
     const [loading, setLoading] = useState(false);
     const [nowss, setNowss] = useState([]);
     const [total, setTotal] = useState(0);
@@ -61,24 +62,30 @@ const NewsPage = () => {
         return <div dangerouslySetInnerHTML={createMarkup()} />;
     }
 
+    const onChangeEllipsis = (url) => {
+        const list=nowss.map(u=>u.url===url ? {...u, ellipsis:!u.ellipsis} : u);
+        setNowss(list);
+    }
+
     return (
         <div className='card'>
-
-            <Table striped>
-                <thead onSubmit={onSubmit}>
-                    <h5 className='text-center'>오늘의 뉴스</h5>
-                    {nowss.map(nows =>
-                        <tr className='board' key={nows.url}>
-                            <td>
-                                <Link to={nows.url}
-                                    style={{ textDecoration: "none", color: 'black' }}>
-                                    <div dangerouslySetInnerHTML={{ __html: nows.title }} />
-                                </Link>
-                            </td>
-                        </tr>
-                    )}
-                </thead>
-            </Table>
+            <div onClick={() => onChangeEllipsis(nowss.url)} style={{ cursor: 'pointer' }}>
+                <Table striped>
+                    <thead onSubmit={onSubmit}>
+                        <h5 className='text-center'>오늘의 뉴스</h5>
+                        {nowss.map(nows =>
+                            <tr className='board' key={nows.url}>
+                                <td>
+                                    <Link to={nows.url}
+                                        style={{ textDecoration: "none", color: 'black' }}>
+                                        <div dangerouslySetInnerHTML={{ __html: nows.title }} />
+                                    </Link>
+                                </td>
+                            </tr>
+                        )}
+                    </thead>
+                </Table>
+            </div>
             <div className='text-end'>
                 <Link to={"https://news.daum.net/"} className="moer"
                     style={{ textDecoration: "none", color: 'black' }}>
