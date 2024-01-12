@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.MarketMapper">
+    <select id="list" resultType="hashmap">
+        select *, date_format(regdate, '%Y-%m-%d %T') fmtdate, format(price, 0) fmtprice 
+        from market where title like concat('%', #{query}, '%')
+        order by sid desc limit #{start}, #{size} 
+    </select>
+    <select id="read" resultType="hashmap">
+    	select *, date_format(regdate, '%Y-%m-%d %T') fmtdate, format(price, 0) fmtprice
+    	from market where sid=#{sid} 
+    </select>
+    <select id="total" resultType="int">
+    	select count(*) from market where title like concat('%', #{query}, '%')
+    </select>
+    <select id="comment" resultType="hashmap">
+    	select *, date_format(regdate, '%Y-%m-%d %T') from mcomments where sid=#{sid} order by mcid desc limit #{start}, #{size}
+    </select>
+    <select id="commTotal" resultType="int">
+    	select count(*) from mcomments where mcid=#{mcid}
+    </select>
+    <select id="commRead" resultType="com.example.domain.MCommentsVO">
+    	select * from mcomments where mcid=#{mcid}
+    </select>
+    <select id="info" resultType="hashmap">
+    	select *, date_format(regdate, '%Y-%m-%d %T') fmtdate, format(price, 0) fmtprice,
+    	(select count(*) from mcomments where uid=#{uid} and sid=#{sid})
+    	form market where sid=#{sid}
+    </select>
+    <select id="check" resultType="int">
+    	select count(*) from market where photonum=#{photonum}
+    </select>
+    <insert id="insert">
+    	insert into market(uid, title, photo, contents, price, category, photonum)
+    	values(#{uid}, #{title}, #{photo}, #{contents}, #{price}, #{category}, #{photonum})
+    </insert>
+    <insert id="commIn">
+    	insert into mcomments(sid, uid, body)
+    	values(#{sid}, #{uid}, #{body})
+    </insert>
+    <update id="update">
+    	update market set title=#{title}, contents=#{contents},
+    	price=#{price}, category=#{category} where sid=#{sid}
+    </update>
+    <update id="photoUp">
+    	update market set photo=#{photo} where sid=#{sid}
+    </update>
+    <update id="commUp">
+    	update mcomments set body=#{body}, regdate=now()
+    	where mcid=#{mcid}
+    </update>
+    <update id="viewcnt">
+    	update market set vcnt=vcnt+1
+    	where sid=#{sid}
+    </update>
+    <update id="commcnt">
+    	update market set rcnt=rcnt+#{amount}
+    	where sid=#{sid}
+    </update>
+    <delete id="delete">
+    	delete from market where sid=#{sid}
+    </delete>
+    <delete id="commDel">
+    	delete from mcomments where mcid=#{mcid}
+    </delete>
+</mapper>
