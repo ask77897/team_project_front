@@ -106,7 +106,7 @@ const HomePage = () => {
                         <div className='text-center'>
                             <div className='content_text'>
                                 <div className='content_title'>
-                                    <b>모두가 참여할 수 있는</b>
+                                    <b>모두가 참여할 수 있는d</b>
                                     <br />
                                     <b>프리타임</b>
                                 </div>
