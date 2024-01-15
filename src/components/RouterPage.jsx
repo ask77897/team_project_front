@@ -5,16 +5,15 @@ import TimetableMonth from './TimetableMonth';
 import MarkList from './market/MarkList';
 import MarkInsert from './market/MarkInsert';
 import PostList from './post/PostList';
-import SubHomePage from './SubHomePage';
+// import SubHomePage from './SubHomePage';
 import Gradcalc from './gradcal/GradCalc';
 import MarkPage from './market/MarkPage';
-import CommentList from './comment/CommentList';
-import Comments from './comment/Comments';
 import HomePage from './HomePage';
 import Login from './users/Login';
 import SignUp from './users/SignUp';
 import MyPage from './users/Mypage';
 import UpdatePage from './users/UpdatePage';
+import MainCarousels from './MainCarousels';
 
 
 const RouterPage = () => {
@@ -22,7 +21,7 @@ const RouterPage = () => {
     return (
         <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path='/home' element={<SubHomePage />} />
+            <Route path='/home' element={<MainCarousels />} />
             <Route path='/posts/list' element={<PostList />} />
             <Route path='/posts/write' element={<Gesipan />} />
 
@@ -35,11 +34,8 @@ const RouterPage = () => {
 
             <Route path='/market/list' element={<MarkList />} />
             <Route path='/market/read/:sid' element={<MarkPage />} />
-            {/* <Route path="/market/update" element={<MarketUpdate/>}/> */}
             <Route path="/market/insert" element={<MarkInsert />} />
 
-            {/* <Route path="/market/comment/list" element={<CommentList />} />
-            <Route path="/market/comment/insert" element={<Comments />} /> */}
         </Routes>
     )
 }

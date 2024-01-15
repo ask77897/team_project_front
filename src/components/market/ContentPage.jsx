@@ -40,14 +40,6 @@ const ContentPage = ({ sid, market, setMarket, getMarket }) => {
                     className='text-end mb-2'>
                     <Button variant='warning' style={{ borderRadius: '20px', fontSize: '13px' }} onClick={onClickSave}>저장</Button>
                 </th>
-                {/* <th eventKey="profile" title="HTML">
-                    <div className='text-end mb-2'>
-                        <Button onClick={onClickSaveHtml}
-                            className='px-5'>저장</Button>
-                    </div>
-                    <Form.Control onChange={onChangeHtml}
-                        as="textarea" rows={20} value={market.html} />
-                </th> */}
             </tr>
         </>
     )

@@ -5,21 +5,16 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import TimetableMonth from './TimetableMonth';
-import { EffectCoverflow, Pagination, Navigation } from 'swiper';
+import SwiperCore, { EffectCoverflow, Pagination, Navigation } from 'swiper';
 
-import slide_image_1 from './assets/images/img_1.jpg';
-import slide_image_2 from './assets/images/img_2.jpg';
 import slide_image_3 from './assets/images/img_3.jpg';
 import slide_image_4 from './assets/images/img_4.jpg';
 import slide_image_5 from './assets/images/img_5.jpg';
 import slide_image_6 from './assets/images/img_6.jpg';
 import slide_image_7 from './assets/images/img_7.jpg';
-import { Link } from 'react-router-dom';
 import NewsPage from './NewsPage';
 
-// ([EffectCoverflow, Pagination, Navigation]);
-
-
+SwiperCore.use([EffectCoverflow, Pagination, Navigation]);
 
 function MainCarousels() {
 
@@ -29,34 +24,32 @@ function MainCarousels() {
         }}>
             <h1 className="heading">Flower Gallery</h1>
             <Swiper
-                effect={'coverflow'}
+                effect={"coverflow"}
                 grabCursor={true}
                 centeredSlides={true}
-                loop={true}
-                slidesPerView={'auto'}
+                slidesPerView={2}
                 coverflowEffect={{
-                    rotate: 0,
+                    rotate: 50,
                     stretch: 0,
-                    depth: 50,
-                    modifier: 2.5,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: true,
                 }}
-                pagination={{ clickable: true }}
-                navigation={true} // 내비게이션 활성화
-                className="swiper_container"
-                style={{ width: '50%', margin: '0 auto' }}
+                modules={[EffectCoverflow, Pagination]}
+                className="swiper"
             >
                 <div className='imgbox'>
-                    <SwiperSlide style={{ height: "auto" }}>
-                        <NewsPage />
+                    <SwiperSlide>
+                        <img src={slide_image_4} alt="slide_image" />
                     </SwiperSlide>
                     <SwiperSlide>
                         <TimetableMonth style={{ height: "auto" }} />
                     </SwiperSlide>
-                    <SwiperSlide>
-                        <img src={slide_image_3} alt="slide_image" />
+                    <SwiperSlide style={{ height: "auto" }}>
+                        <NewsPage />
                     </SwiperSlide>
                     <SwiperSlide>
-                        <img src={slide_image_4} alt="slide_image" />
+                        <img src={slide_image_3} alt="slide_image" />
                     </SwiperSlide>
                     <SwiperSlide>
                         <img src={slide_image_5} alt="slide_image" />

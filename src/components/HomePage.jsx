@@ -8,8 +8,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
 import { IoIosSearch } from "react-icons/io";
 import { IoHomeSharp } from "react-icons/io5";
-import MainCarousels from './MainCarousels';
-import { PiCoffeeFill } from "react-icons/pi";
 
 
 const HomePage = () => {
@@ -103,7 +101,7 @@ const HomePage = () => {
                     <div style={{ width: '100%' }} className='box-contents'>
                         <div>
                             <div className='image01'>
-                                <PiCoffeeFill />
+                                <IoHomeSharp />
                             </div>
                         </div>
                         <div className='text-center'>
@@ -187,7 +185,6 @@ const HomePage = () => {
                     </div>
                 </Col>
             </Row>
-            <MainCarousels />
         </div>
 
     );

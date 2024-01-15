@@ -6,7 +6,6 @@ import axios from 'axios';
 import Pagination from 'react-js-pagination';
 import '../Pagination.css';
 import { IoMdSearch } from "react-icons/io";
-import { MdDeleteForever } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
 
 const PostList = () => {
@@ -28,30 +27,19 @@ const PostList = () => {
     const getPostLists = async () => {
         const url = `/posts/list.json?query=${query}&page=${page}&size=${size}`;
         setLoading(true);
-
-        try {
-            const res = await axios(url);
-            if (res.data && res.data.list) {
-                let list = res.data.list;
-                list = list.map(postist => postist && { ...postist, checked: false });
-                setPostLists(list);
-                setTotal(res.data.total);
-            } else {
-                // 적절한 오류 처리 또는 로그를 추가할 수 있습니다.
-                console.error("Invalid response data format");
-            }
-        } catch (error) {
-            // 오류 처리 로직을 추가할 수 있습니다.
-            console.error("Error fetching data:", error);
-        } finally {
-            setLoading(false);
-        }
+        const res = await axios(url);
+        let list = res.data.list;
+        list = list.map(postlist => postlist && { ...postlist, checked: false });
+        setPostLists(list);
+        console.log(setPostLists);
+        setTotal(res.data.total);
+        setLoading(false);
     };
 
 
     useEffect(() => {
         getPostLists();
-    }, [location]);
+    }, [location, query, page, size]);
 
     useEffect(() => {
         let cnt = 0;

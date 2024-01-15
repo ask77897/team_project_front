@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Col, InputGroup, Row, Form } from 'react-bootstrap';
+import { Col, InputGroup, Row, Form, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router';
 
 const MarkInsert = () => {
@@ -95,12 +95,12 @@ const MarkInsert = () => {
                         <img src={src} alt="Preview" style={{ maxWidth: '200px', maxHeight: '200px', marginTop: '10px' }} />
                     </InputGroup>
                     <div className="text-end">
-                        <button className="post-view-go-list-btn" type="submit">
+                        <Button variant='warning' style={{ color: 'black', borderRadius: '20px', fontSize: '13px' }}>
                             게시글등록
-                        </button>
-                        <button className="post-view-go-list-btn" onClick={() => navi('/market/list')}>
+                        </Button>
+                        <Button variant='warning' style={{ color: 'black', borderRadius: '20px', fontSize: '13px' }} onClick={() => navi('/market/list')}>
                             취소
-                        </button>
+                        </Button>
                     </div>
                 </form>
             </Col>
@@ -109,19 +109,3 @@ const MarkInsert = () => {
 };
 
 export default MarkInsert;
-
-
-
-
-
-// const formData = new FormData();
-// formData.append('image', file);
-
-// 이미지를 업로드할 API 엔드포인트로 POST 요청을 보냅니다.
-// const imageResponse = await axios.post('/market/insert', formData);
-
-// 이미지 업로드 후, 이미지 경로를 상태에 저장합니다.
-// setMarket({ ...market, photonum: imageResponse.data.imagePath });
-
-// // 나머지 데이터와 함께 게시물을 서버에 전송합니다.
-// const marketResponse = await axios.post('/market/insert', market);

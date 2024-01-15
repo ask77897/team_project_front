@@ -121,8 +121,8 @@ div {
   
   .card {
 	padding: 5em;
-	width: 28rem !important;
-    height: 36rem !important;
+	width: 28rem ;
+    height: 36rem ;
 	margin: auto;
 	margin-top: 50px;
   }
