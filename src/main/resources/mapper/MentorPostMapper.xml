@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.MentorPostMapper">
+    <select id="list" resultType="hashmap">
+        select * from mentorpost
+    </select>
+    <select id="read" resultType="hashmap">
+    	select * from mentorpost where mpid=#{mpid} order by desc
+    </select>
+    <select id=""></select>
+    <insert id="insert">
+    	insert into mentorpost (mtid, writer, title, contents)
+    	values(#{mtid}, #{writer}, #{title}, #{contents})
+    </insert>
+    <update id="update">
+    	update mentorpost set title=#{title}, contents=#{contents}, regdate=now()
+    	where writer=#{writer}
+    </update>
+    <delete id="delete">
+    	delete from mentorpost where mpid=#{mpid}
+    </delete>
+</mapper>

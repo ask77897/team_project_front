@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.MentorMapper">
+	<select id="list" resultType="hashmap">
+		select * from mentor where uid like concat('%', #{query}, '%') or mid like concat('%', #{query}, '%')
+		order by regdate limit #{start}, #{size}
+	</select>
+    <select id="read" resultType="hashmap">
+        select * from mentor where mtid=#{mtid}
+    </select>
+    <insert id="insert">
+    	insert into mentor(mtid, uid, mid) values(#{mtid}, #{uid}, #{mid})
+    </insert>
+    <update id="update">
+    	update mentor set uid=#{uid}, mid=#{mid} where mtid=#{mtid}
+    </update>
+    <delete id="delete">
+    	delete from mentor where mtid=#{mtid}
+    </delete>
+</mapper>
