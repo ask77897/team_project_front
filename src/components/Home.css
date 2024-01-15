@@ -26,7 +26,7 @@
     background-color: #ffffff;
     padding: var(--gap);
     margin-right: 100px;
-    margin-bottom: 20px; /* 여기에 간격 조절 값을 추가합니다. */
+
 }
 
 .box-contents {
@@ -105,11 +105,8 @@ body {
     border: 2px solid lightgrey;
     border-radius: 30px;
     width: auto;
-    margin-bottom: 400px;
 }
 
 .freebox {
-    margin-left: 140px;
-    margin-bottom: 200px;
-    box-sizing: unset;
+    margin-left: 200px;
 }

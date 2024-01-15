@@ -3,7 +3,6 @@ import '../layout/main.css'
 import NewsPage from './NewsPage';
 import PostList from './post/PostList';
 import MarkList from './market/MarkList';
-import Lotto from './Lotto';
 
 const HomePage = () => {
 
@@ -12,9 +11,6 @@ const HomePage = () => {
     <div class="main-container">
         <div class="temp-box">
             <NewsPage/>
-        </div>
-        <div class="temp-box">로또
-            <Lotto />
         </div>
         <div class="temp-box">중고서적 장터
         </div>

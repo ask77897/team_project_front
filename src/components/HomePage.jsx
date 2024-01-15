@@ -18,16 +18,24 @@ const HomePage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredSchools, setFilteredSchools] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-
     const location = useLocation();
-    const userInfo = { ...location.state };
 
     const handleGoHome = () => {
         navi('/home');
     };
 
     const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value);
+        const newSearchTerm = e.target.value;
+        setSearchTerm(newSearchTerm);
+
+        if (newSearchTerm === '') {
+            setFilteredSchools(schoolNames);
+        } else {
+            const filteredResults = schoolNames.filter(name =>
+                name.toLowerCase().includes(newSearchTerm.toLowerCase())
+            );
+            setFilteredSchools(filteredResults);
+        }
     };
 
     const handleSearchSubmit = () => {
@@ -58,10 +66,11 @@ const HomePage = () => {
         setFilteredSchools(schoolNames);
     };
 
-    const handleMypage = () => {
-        navi('/users/mypage');
-    }
-
+    const handleSearchKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            handleSearchSubmit();
+        }
+    };
     function api() {
         const apiUrl = 'https://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=182d16ae47f512d7f7416deff20ed926&svcType=api&svcCode=SCHOOL&contentType=json&gubun=univ_list&perPage=475';
 
@@ -111,14 +120,21 @@ const HomePage = () => {
                                     <b>프리타임</b>
                                 </div>
                                 <div style={{ marginTop: '20px', marginLeft: '270px', marginBottom: '10px' }} className='store_links'>
-                                    <Button style={{ width: '150px', height: '50px', backgroundColor: 'black', marginLeft: '120px', borderRadius: '20px' }}><a href="https://apps.apple.com/kr/app/%EC%97%90%EB%B8%8C%EB%A6%AC%ED%83%80%EC%9E%84/id642416310" className="applestore"><img src='/images/Apple.png' width='30px' />App Store</a></Button>
-                                    <Button style={{ width: '150px', height: '50px', marginLeft: '10px', backgroundColor: 'black', borderRadius: '20px' }}><a href="https://play.google.com/store/apps/details?id=com.everytime.v2&pli=1" className="googleplay"><img src='/images/google.webp' width='30px' style={{ marginRight: '5px' }} />Google Play</a></Button>
+                                    <Button style={{ width: '150px', height: '50px', backgroundColor: 'black', marginLeft: '120px', borderRadius: '20px' }} onClick={() => window.location.href = "https://apps.apple.com/kr/app/%EC%97%90%EB%B8%8C%EB%A6%AC%ED%83%80%EC%9E%84/id642416310"}>
+                                        <img src='/images/Apple.png' width='30px' alt="Apple App Store" />
+                                        App Store
+                                    </Button>
+
+                                    <Button style={{ width: '150px', height: '50px', marginLeft: '10px', backgroundColor: 'black', borderRadius: '20px' }} onClick={() => window.location.href = "https://play.google.com/store/apps/details?id=com.everytime.v2&pli=1"}>
+                                        <img src='/images/google.webp' width='30px' style={{ marginRight: '5px' }} alt="Google Play Store" />
+                                        Google Play
+                                    </Button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div style={{ marginRight: '100px' }}>
-                        <aside className='box-sidebar' style={{ position: 'fixed' }}>
+                    <div>
+                        <aside className='box-sidebar'>
                             <div>
                                 <div className='freebox' style={{ width: '230px', position: 'absolute' }}>
                                     <div className='sidebox' style={{ backgroundColor: 'white' }}>
@@ -151,8 +167,8 @@ const HomePage = () => {
                                                     type='search'
                                                     placeholder=" 학교명 입력하세요."
                                                     value={searchTerm}
-                                                    onChange={handleSearchChange} />
-
+                                                    onChange={handleSearchChange}
+                                                    onKeyDown={handleSearchKeyDown} />
                                                 <i onClick={handleSearchSubmit}
                                                     style={{ fontSize: '25px', marginLeft: '5px' }}
                                                     type="button"
@@ -165,7 +181,6 @@ const HomePage = () => {
                                                         next={fetchMoreData}
                                                         hasMore={hasMore}
                                                         loader={<p>Loading...</p>}
-                                                        endMessage={<p className='mt-3'>마지막입니다...</p>}
                                                         height={200}>
                                                         {filteredSchools.map((name, index) => (
                                                             <div key={index} className='container'>
@@ -187,7 +202,6 @@ const HomePage = () => {
                 </Col>
             </Row>
         </div>
-
     );
 }
 

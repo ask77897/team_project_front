@@ -62,10 +62,17 @@ const UpdatePage = () => {
         e.preventDefault();
         try {
             if (window.confirm('정보를 수정하실래요?')) {
+
+                setUser({
+                    ...user,
+                    uid: sessionStorage.getItem('uid'),
+                })
+
                 const res = await axios.post('/users/update', user);
-                if (res.data == 1) {
+                if (res.data) {
                     console.log(res.data);
                     alert("정보가 수정되었습니다.");
+                    getUser();
                     navi('/users/mypage');
                 } else {
                     alert("정보수정이 실패했습니다.");

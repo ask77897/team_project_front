@@ -109,7 +109,7 @@ const SignUp = () => {
                     <div class="col-md-6 card p-3">
                         <form>
                             <div className="input-group mb-3">
-                                <span className="input-group-text">이메일</span>
+                                <span className="input-group-text">아이디</span>
                                 <input
                                     name="uid"
                                     className="form-control"
@@ -133,7 +133,14 @@ const SignUp = () => {
                                     onChange={handleInputChange}
                                 />
                             </div>
-
+                            <div className="input-group mb-3">
+                                <span className="input-group-text">번호</span>
+                                <input
+                                    name="phone"
+                                    className="form-control"
+                                    onChange={handleInputChange}
+                                />
+                            </div>
                             <div className="input-group mb-3">
                                 <span className="input-group-text">우편번호</span>
                                 <input

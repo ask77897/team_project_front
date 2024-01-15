@@ -3,13 +3,13 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { NavLink } from 'react-bootstrap';
-import { IoHomeSharp } from "react-icons/io5";
+import { PiCoffeeFill } from "react-icons/pi";
 
 const HeaderPage = () => {
     return (
         <Container className='content_texts'>
             <Navbar expand="lg" className="nav justify-content-center">
-                <NavLink href="/" className="home">프리타임</NavLink>
+            <NavLink href="/" className="home"><PiCoffeeFill style={{marginRight:'5px'}}/>프리타임</NavLink>
                 <Nav>
                     <Nav.Link href={"/home"}>홈</Nav.Link>
                     <Nav.Link href={"/posts/list"}>자유게시판</Nav.Link>

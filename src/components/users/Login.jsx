@@ -39,6 +39,7 @@ const Login = () => {
 			} else if (res.data === 2) {
 				alert('비밀번호가 일치하지 않습니다!');
 			} else {
+				alert("로그인 되었습니다.")
 				sessionStorage.setItem('uid', userid);
 
 				if (sessionStorage.getItem('target')) {
