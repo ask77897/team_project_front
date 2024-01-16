@@ -8,6 +8,7 @@ const UpdatePage = () => {
     const navi = useNavigate();
     const [loading, setLoading] = useState(false);
     const ref_file = useRef(null);
+    const [file, setFile] = useState(null);
     const [user, setUser] = useState({
         uid: '',
         email: '',
@@ -18,22 +19,48 @@ const UpdatePage = () => {
         address1: '',
         address2: ''
     });
-    const { uid, email, upass, uname, photo, phone, address1, address2 } = user;
-    const [imageFile, setImageFile] = useState(null);
+
+    const { uid, uname, phone, address1, address2, photo } = user;
 
     const onChangeFile = (e) => {
+        setFile(e.target.files[0]);
         setUser({
             ...user,
             photo: URL.createObjectURL(e.target.files[0]),
-            file: e.target.files[0]
         });
-    }
+    };
+
+    const onSaveImage = async () => {
+        if (!file) {
+            return;
+        }
+
+        if (window.confirm("이미지를 변경하실래요?")) {
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("uid", uid);
+            formData.append("uname", uname);
+            formData.append("phone", phone);
+            formData.append("address1", address1);
+            formData.append("address2", address2);
+
+            try {
+                // 이미지 업로드 후 최신 사용자 정보를 가져오기
+                const response = await axios.post("/users/upload", formData);
+                alert("변경완료");
+                setFile(null);
+                setUser(response.data);
+            } catch (error) {
+                console.error('이미지 업로드 중 에러 발생:', error);
+                alert('이미지 업로드 중 에러가 발생했습니다.');
+            }
+        }
+    };
 
     const getUser = async () => {
         setLoading(true);
         try {
             const res = await axios.get(`/users/read?uid=${sessionStorage.getItem('uid')}`);
-            console.log(res);
             setUser(res.data);
         } catch (error) {
             console.error('사용자 정보를 가져오는 중 에러 발생:', error);
@@ -53,24 +80,17 @@ const UpdatePage = () => {
         });
     };
 
-    const onImageChange = (e) => {
-        const file = e.target.files[0];
-        setImageFile(file);
-    };
-
     const onUpdate = async (e) => {
         e.preventDefault();
         try {
             if (window.confirm('정보를 수정하실래요?')) {
-
                 setUser({
                     ...user,
                     uid: sessionStorage.getItem('uid'),
-                })
+                });
 
                 const res = await axios.post('/users/update', user);
                 if (res.data) {
-                    console.log(res.data);
                     alert("정보가 수정되었습니다.");
                     getUser();
                     navi('/users/mypage');
@@ -82,7 +102,7 @@ const UpdatePage = () => {
             console.error('정보 수정 중 에러 발생:', error);
             alert('정보 수정 중 에러가 발생했습니다.');
         }
-    }
+    };
 
     if (loading) return <div className='my-5 text-center'><Spinner variant='dark' /></div>;
 
@@ -115,16 +135,15 @@ const UpdatePage = () => {
                             </InputGroup>
                             <Form.Control placeholder='상세주소' name="address2" value={address2} onChange={onChange} />
                             <div className='text-center my-3'>
-                                <Button style={{ borderRadius: '20px' }} variant="warning" className='me-2' type="submit">저장</Button>
-                                <Button style={{ borderRadius: '20px', color: 'black' }} variant="outline-warning" onClick={() => getUser()}>취소</Button>
+                                <Button style={{ borderRadius: '20px' }} variant="warning" className='me-2' type="submit" onClick={onSaveImage}>저장</Button>
+                                <Button style={{ borderRadius: '20px', color: 'black' }} variant="outline-warning" onClick={() => navi('/users/mypage')}>취소</Button>
                             </div>
                         </form>
                     </Card>
                 </Col>
             </Row>
         </div>
-    )
-}
+    );
+};
 
-
-export default UpdatePage
+export default UpdatePage;

@@ -109,7 +109,7 @@ const HomePage = () => {
                     <div style={{ width: '100%' }} className='box-contents'>
                         <div>
                             <div style={{ marginBottom: "50px" }} className='image01'>
-                                <PiCoffeeFill />
+                                <PiCoffeeFill style={{color:'chocolate'}}/>
                             </div>
                         </div>
                         <div className='text-center'>

@@ -98,16 +98,6 @@ const Login = () => {
 					</Button>
 				</Form>
 			</div>
-			<hr />
-			<h3 className='text-center'>SNS로그인</h3>
-			<div className='sns_login text-center'>
-				<Button style={{ backgroundColor: 'white' }} className='kakao_login'>
-					<img src='//static.011st.com/assets/img/svg/member/sns-kakao.svg' alt='카카오' />
-				</Button>
-				<Button style={{ backgroundColor: 'white' }} className='naver_login'>
-					<img src='//static.011st.com/assets/img/svg/member/sns-naver.svg' alt='네이버' />
-				</Button>
-			</div>
 		</div>
 	);
 };

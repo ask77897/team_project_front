@@ -97,7 +97,7 @@ const MyPage = () => {
                             <div className='mb-2'>번호: {phone}</div>
                             <div className='mb-2'>주소: {address1} {address2}</div>
                             <div className='mb-2'>가입일: {fmtdate}</div>
-                            <div className='mb-2'>수정일: {formatDateTime(fmtmodi)}</div>
+                            <div className='mb-2'>수정일: {fmtmodi}</div>
                             <hr />
                             <Button style={{ borderRadius: '20px', color: 'black' }} variant="warning" size="sm" onClick={() => navi('/users/update')}>정보수정</Button>
                         </div>
