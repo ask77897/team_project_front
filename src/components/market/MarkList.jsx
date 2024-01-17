@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Col, InputGroup, Row, Form, Table, Spinner, Button, Badge } from 'react-bootstrap'
+import { Col, InputGroup, Row, Form, Table, Spinner, Button } from 'react-bootstrap'
 import { useLocation, useNavigate, NavLink, Link } from 'react-router-dom';
 import { BoxContext } from '../BoxContext';
 import axios from 'axios';
@@ -53,12 +53,13 @@ const MarkList = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        // 검색 버튼 클릭 시 페이지를 1로 초기화하여 새로운 데이터를 불러옴
         navi(`${path}?page=1&query=${query}&size=${size}`);
     };
 
     const onDelete = async (sid) => {
-        if (!window.confirm(`${sid}번 게시물을 삭제하시겠습니까?`)) return;
-        const res = await axios(`/market/delete`, { sid });
+        if (!window.confirm(`${sid}번 도서를 삭제하실래요?`)) return;
+        const res = await axios.get(`/market/delete`);
         if (res.data === 0) {
             alert("삭제 실패!");
         } else {
@@ -81,21 +82,21 @@ const MarkList = () => {
         if (chcnt == 0) {
             setBox({
                 show: true,
-                message: '삭제할 게시물을 선택하세요!'
+                message: '삭제할 도서를 선택하세요!'
             })
         } else {
             let count = 0;
             setBox({
                 show: true,
-                message: `${chcnt}개의 게시물을 삭제 하시겠습니까?`,
+                message: `${chcnt}권 도서를 삭제 하실래요?`,
                 action: async () => {
                     for (const market of markets) {
                         if (market.checked) {
-                            const res = await axios(`/market/delete`, { sid: markets.sid });
+                            const res = await axios.get(`/market/delete`, { sid: markets.sid });
                             if (res.data === 1) count++;
                         }
                     }
-                    setMarkets({ show: true, message: `${count}개의 게시물이 되었습니다!` });
+                    setMarkets({ show: true, message: `${count}권 삭제 되었습니다!` });
                     navi(`${path}?page=1&query=${query}&size=${size}`);
                 }
             });

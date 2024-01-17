@@ -39,6 +39,7 @@ const Login = () => {
 			} else if (res.data === 2) {
 				alert('비밀번호가 일치하지 않습니다!');
 			} else {
+				alert("로그인 되었습니다.")
 				sessionStorage.setItem('uid', userid);
 
 				if (sessionStorage.getItem('target')) {
@@ -96,16 +97,6 @@ const Login = () => {
 						프리타임 로그인
 					</Button>
 				</Form>
-			</div>
-			<hr />
-			<h3 className='text-center'>SNS로그인</h3>
-			<div className='sns_login text-center'>
-				<Button style={{ backgroundColor: 'white' }} className='kakao_login'>
-					<img src='//static.011st.com/assets/img/svg/member/sns-kakao.svg' alt='카카오' />
-				</Button>
-				<Button style={{ backgroundColor: 'white' }} className='naver_login'>
-					<img src='//static.011st.com/assets/img/svg/member/sns-naver.svg' alt='네이버' />
-				</Button>
 			</div>
 		</div>
 	);
