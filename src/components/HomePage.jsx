@@ -159,7 +159,7 @@ const HomePage = () => {
                                                 </div>
                                                 <hr />
                                                 <div className='mt-5'>
-                                                    <p><b>내 학교 찾아보기</b></p>
+                                                    <p><b>내 대학교 찾아보기</b></p>
                                                 </div>
                                                 <input
                                                     className='content_texts'
