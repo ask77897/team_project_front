@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
 import { IoIosSearch } from "react-icons/io";
 import { PiCoffeeFill } from "react-icons/pi";
+import axios from 'axios';
 
 const HomePage = () => {
     const navi = useNavigate();
@@ -19,6 +20,30 @@ const HomePage = () => {
     const [filteredSchools, setFilteredSchools] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const location = useLocation();
+    const [userImage, setUserImage] = useState('');
+    const [userName, setUserName] = useState('');
+
+    const fetchUserData = async () => {
+        try {
+            const response = await axios.get(`/users/read?uid=${sessionStorage.getItem("uid")}`);
+            const userData = response.data;
+
+            setUserImage(userData.image || "http://via.placeholder.com/50x50"); // 사용자 이미지가 없을 경우 기본 이미지 설정
+            setUserName(userData.uname);
+        } catch (error) {
+            console.error('사용자 데이터를 불러오는 데 실패했습니다:', error);
+        }
+    };
+
+    useEffect(() => {
+        api();
+        if (sessionStorage.getItem("uid") != null) {
+            setIsLoggedIn(true);
+            fetchUserData();
+        } else {
+            setIsLoggedIn(false);
+        }
+    }, []);
 
     const handleGoHome = () => {
         navi('/home');
@@ -109,7 +134,7 @@ const HomePage = () => {
                     <div style={{ width: '100%' }} className='box-contents'>
                         <div>
                             <div style={{ marginBottom: "50px" }} className='image01'>
-                                <PiCoffeeFill style={{color:'chocolate'}}/>
+                                <PiCoffeeFill style={{ color: 'chocolate' }} />
                             </div>
                         </div>
                         <div className='text-center'>
@@ -119,17 +144,6 @@ const HomePage = () => {
                                     <br />
                                     <b>프리타임</b>
                                 </div>
-                                <div style={{ marginTop: '20px', marginLeft: '270px', marginBottom: '10px' }} className='store_links'>
-                                    <Button style={{ width: '150px', height: '50px', backgroundColor: 'black', marginLeft: '120px', borderRadius: '20px' }} onClick={() => window.location.href = "https://apps.apple.com/kr/app/%EC%97%90%EB%B8%8C%EB%A6%AC%ED%83%80%EC%9E%84/id642416310"}>
-                                        <img src='/images/Apple.png' width='30px' alt="Apple App Store" />
-                                        App Store
-                                    </Button>
-
-                                    <Button style={{ width: '150px', height: '50px', marginLeft: '10px', backgroundColor: 'black', borderRadius: '20px' }} onClick={() => window.location.href = "https://play.google.com/store/apps/details?id=com.everytime.v2&pli=1"}>
-                                        <img src='/images/google.webp' width='30px' style={{ marginRight: '5px' }} alt="Google Play Store" />
-                                        Google Play
-                                    </Button>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -138,9 +152,15 @@ const HomePage = () => {
                             <div>
                                 <div className='freebox' style={{ width: '230px', position: 'absolute' }}>
                                     <div className='sidebox' style={{ backgroundColor: 'white' }}>
-                                        <div style={{ marginTop: '30px' }} ><p style={{ fontSize: '60px' }}>프리타임</p>
+                                        <div style={{ marginTop: '30px' }} ><p style={{ fontSize: '60px' }}><b>프리타임</b></p>
                                             <div className='content_texts'>
-                                                <div style={{ marginTop: '50px' }} className='store_links'>
+                                                {isLoggedIn && (
+                                                    <div>
+                                                        <img src={userImage} alt="사용자" width="120" className='user-photo' />
+                                                        <div className='user-name'>{userName}님</div>
+                                                    </div>
+                                                )}
+                                                <div className='store_links'>
                                                     {isLoggedIn ? (
                                                         <Button style={{ borderRadius: '20px', fontSize: '13px' }} className='m-2' variant="warning" onClick={handleLogout}>로그아웃</Button>
                                                     ) : (
