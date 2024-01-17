@@ -1,15 +1,18 @@
+import { isVisible } from '@testing-library/user-event/dist/utils';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Col, InputGroup, Row, Form } from 'react-bootstrap';
+import { useRef } from 'react';
+import { Col, InputGroup, Row, Form, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router';
 
 const MarkInsert = () => {
     const { sid } = useParams();
+    const ref_file = useRef(null);
     const [src, setSrc] = useState('http://via.placeholder.com/200x200');
     const [file, setFile] = useState(null);
     const [market, setMarket] = useState({
         sid: '',
-        uid: '',
+        uid: sessionStorage.getItem("uid"),
         title: '',
         price: '',
         photo: '',
@@ -21,21 +24,8 @@ const MarkInsert = () => {
     const { uid, title, price, contents, photonum, category, photo } = market;
     const navi = useNavigate();
 
-    const getMarket = async () => {
-        const res = await axios.post(`/market/insert`);
-        console.log(res.data);
-        setMarket(res.data);
-    };
-
-    useEffect(() => {
-        if (sid) {
-            getMarket();
-        }
-    }, [sid]);
-
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setMarket({ ...market, [name]: value });
+        setMarket({ ...market, [e.target.name]: e.target.value });
     };
 
     const handleImageChange = (e) => {
@@ -44,38 +34,46 @@ const MarkInsert = () => {
         setSrc(URL.createObjectURL(selectedFile));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            // 이미지를 업로드할 API 엔드포인트로 POST 요청을 보냅니다.
-            const formData = new FormData();
-            formData.append('file', file);
-
-            const imageResponse = await axios.post('/market/image/upload', formData);
-
-            // 이미지 업로드 후, 이미지 경로를 상태에 저장합니다.
-            setMarket({ ...market, photonum: imageResponse.data.imagePath });
-
-            // 나머지 데이터와 함께 게시물을 서버에 전송합니다.
-            const marketResponse = await axios.post('/market/insert', market);
-
-            console.log('게시물이 성공적으로 등록되었습니다.', marketResponse.data);
-        } catch (error) {
-            console.error('게시물 등록에 실패했습니다.', error);
+    const handleSubmit = async () => {
+        if (window.confirm("상품을 등록하시겠습니까?")) {
+            await axios.post("/market/insert", market);
+            alert("등록 완료");
+            window.location.href = '/market/list';
         }
-    };
+    }
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     try {
+    //         // 이미지를 업로드할 API 엔드포인트로 POST 요청을 보냅니다.
+    //         const formData = new FormData();
+    //         formData.append('file', file);
+
+    //         const imageResponse = await axios.post('/market/image/upload', formData);
+
+    //         // 이미지 업로드 후, 이미지 경로를 상태에 저장합니다.
+    //         setMarket({ ...market, photonum: imageResponse.data.imagePath });
+
+    //         // 나머지 데이터와 함께 게시물을 서버에 전송합니다.
+    //         const marketResponse = await axios.post('/market/insert', market);
+
+    //         console.log('게시물이 성공적으로 등록되었습니다.', marketResponse.data);
+    //     } catch (error) {
+    //         console.error('게시물 등록에 실패했습니다.', error);
+    //     }
+    // };
 
     return (
 
         <Row className='justify-content-center'>
             <Col md={8}>
                 <form onSubmit={handleSubmit}>
-                    <InputGroup className='mb-2'>
+                    <InputGroup className='my-2' style={{display:'none'}}>
                         <InputGroup.Text>아이디</InputGroup.Text>
-                        <Form.Control name='uid' onChange={handleInputChange} value={uid} />
+                        <Form.Control name='uid' onChange={handleInputChange} value={sessionStorage.getItem("uid")} readOnly/>
                     </InputGroup>
-                    <InputGroup className='mb-2'>
+                    <InputGroup className='my-2'>
                         <InputGroup.Text>제목</InputGroup.Text>
                         <Form.Control name='title' onChange={handleInputChange} value={title} />
                     </InputGroup>
@@ -85,22 +83,23 @@ const MarkInsert = () => {
                     </InputGroup>
                     <InputGroup className='mb-2'>
                         <InputGroup.Text>내용</InputGroup.Text>
-                        <Form.Control name='contents' onChange={handleInputChange} value={contents} />
+                        <Form.Control name='contents' as="textarea" rows={10}
+                            onChange={handleInputChange} value={contents} />
                     </InputGroup>
                     <InputGroup className='mb-2'>
                         <InputGroup.Text>이미지</InputGroup.Text>
                         <div>
-                            <input type="file" onChange={handleImageChange} />
+                            <img src={src} alt='' style={{cursor:'pointer'}} width="150px" onClick={()=>ref_file.current.click()}/>
+                            <input type="file" ref={ref_file} onChange={handleImageChange} style={{display:'none'}}/>
                         </div>
-                        <img src={src} alt="Preview" style={{ maxWidth: '200px', maxHeight: '200px', marginTop: '10px' }} />
                     </InputGroup>
                     <div className="text-end">
-                        <button className="post-view-go-list-btn" type="submit">
+                        <Button className="post-view-go-list-btn me-2" type="submit">
                             게시글등록
-                        </button>
-                        <button className="post-view-go-list-btn" onClick={() => navi('/market/list')}>
+                        </Button>
+                        <Button className="post-view-go-list-btn" onClick={() => navi('/market/list')}>
                             취소
-                        </button>
+                        </Button>
                     </div>
                 </form>
             </Col>

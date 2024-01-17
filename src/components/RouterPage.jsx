@@ -31,7 +31,7 @@ const RouterPage = () => {
             <Route path="/users/signup/" element={<SignUp />} />
             <Route path="/users/mypage/" element={<MyPage />} />
             <Route path="/users/update/" element={<UpdatePage />} />
-            <Route path='/school/talk' element={<Gradcalc />} />
+            <Route path='/school/calc' element={<Gradcalc />} />
 
             <Route path='/market/list' element={<MarkList />} />
             <Route path='/market/read/:sid' element={<MarkPage />} />

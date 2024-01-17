@@ -66,7 +66,7 @@ const UpdatePage = () => {
         e.preventDefault();
         if (window.confirm('정보를 수정하실래요?')) {
             const res = await axios.post('/users/update', user);
-            if (res.data == 1) {
+            if (res.data === 1) {
                 alert("정보가 수정되었습니다.");
                 navi('/users/mypage');
             } else {
@@ -94,7 +94,7 @@ const UpdatePage = () => {
                     <Card className='p-5'>
                         <div>
                             <img onClick={() => ref_file.current.click()}
-                                src={photo || "http://via.placeholder.com/200x200"} width="100" className='photo' />
+                                src={photo || "http://via.placeholder.com/200x200"} width="100" className='photo' alt='' />
                             <input type="file" ref={ref_file} onChange={onChangeFile} style={{ display: 'none' }} />
                             <br />
                             <hr />

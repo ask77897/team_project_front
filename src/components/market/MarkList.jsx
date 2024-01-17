@@ -33,7 +33,7 @@ const MarkList = () => {
         list = list.map(market => market && { ...market, checked: false });
         setMarkets(list);
         setTotal(res.data.total);
-        console.log(setMarkets);
+        console.log(res);
         setLoading(false);
     }
 
@@ -126,7 +126,7 @@ const MarkList = () => {
                 <thead>
                     <tr className='text-center'>
                         <td><input checked={markets.length === chcnt}
-                            type='checkbox' onChange={onChangeAll} /></td><th>글번호</th><th>제목</th><th>작성자</th><th>작성일</th><th>가격</th><th>상태</th>
+                            type='checkbox' onChange={onChangeAll} /></td><th>글번호</th><th>제목</th><th>작성자</th><th>가격</th><th>상태</th><th>작성일</th>
                         <td>
                             <Button variant='light' style={{ color: 'black', borderRadius: '20px', fontSize: '13px' }}
                                 onClick={onClickDelete}>선택삭제<MdDeleteForever /></Button>
@@ -141,13 +141,13 @@ const MarkList = () => {
                             <td>{market.sid}</td>
                             <td width="30%">
                                 <Link to={`/market/read/${market.sid}`}>
-                                    <div className='ellipsis'>{market.title}<Badge bg="secondary" >New</Badge></div>
+                                    <div className='ellipsis'>{market.title}<Badge bg="secondary" className='ms-1' >New</Badge></div>
                                 </Link>
                             </td>
                             <td>{market.uid}</td>
+                            <td>{market.fmtprice}원</td>
+                            <td>{market.str_category}</td>
                             <td>{market.fmtdate}</td>
-                            <td>{market.fmtprice}</td>
-                            <td>{market.category}</td>
                             <td><Button variant='light' style={{ color: 'black', borderRadius: '20px', fontSize: '13px' }} onClick={() => onDelete(market.sid)}
                                 size='sm'><RiDeleteBinLine /></Button></td>
                         </tr>
