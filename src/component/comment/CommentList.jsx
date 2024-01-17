@@ -1,149 +1,150 @@
-// import React, { useContext, useEffect, useState } from 'react'
-// import { Col, InputGroup, Row, Form, Table, Spinner, Button } from 'react-bootstrap'
-// import { useLocation, useNavigate, NavLink, Link, useParams } from 'react-router-dom';
-// import { BoxContext } from '../BoxContext';
-// import axios from 'axios';
-// import Pagination from 'react-js-pagination';
-// import '../Pagination.css';
+import React, { useContext, useEffect, useState } from 'react'
+import { Col, InputGroup, Row, Form, Table, Spinner, Button } from 'react-bootstrap'
+import { useLocation, useNavigate, NavLink, Link, useParams } from 'react-router-dom';
+import { BoxContext } from '../BoxContext';
+import axios from 'axios';
+import Pagination from 'react-js-pagination';
+import '../Pagination.css';
 
-// const CommentList = () => {
+const CommentList = ({sid}) => {
+    const { box, setBox } = useContext(BoxContext);
+    const size = 5;
+    const location = useLocation();
+    const navi = useNavigate();
+    const path = location.pathname;
+    const search = new URLSearchParams(location.search);
+    const [page, setPage] = useState(1);
+    const [comments, setComments] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [total, setTotal] = useState(0);
+    const [body, setBody] = useState("");
 
-//     const { box, setBox } = useContext(BoxContext);
-//     const { sid } = useParams();
-//     const size = 10;
-//     const location = useLocation();
-//     const navi = useNavigate();
-//     const path = location.pathname;
-//     const search = new URLSearchParams(location.search);
-//     const page = search.get("page") ? parseInt(search.get("page")) : 1;
-//     console.log(path, sid, page, size);
-//     const [comments, setComments] = useState([]);
-//     const [loading, setLoading] = useState(false);
-//     const [total, setTotal] = useState(0);
-//     const [chcnt, setChcnt] = useState(0);
+    const getComment = async () => {
+        const url = `/market/comment/list.json?sid=${sid}&page=${page}&size=${size}`;
+        setLoading(true);
+        const res = await axios(url);
+        let list = res.data.list.map(c => c && { ...c, ellipsis: true, view: true, text: c.body});
+        setComments(list);
+        setTotal(res.data.total);
+        console.log(res.data);
+        setLoading(false);
+    }
 
-//     const getComment = async () => {
-//         const url = `/market/comment/list.json?sid=${sid}&page=${page}&size=${size}`;
-//         setLoading(true);
-//         const res = await axios(url);
-//         let list = res.data.list;
-//         list = list.map(comment => comment && { ...comment, checked: false });
-//         setComments(list);
-//         setTotal(res.data.total);
-//         console.log(setComments);
-//         setLoading(false);
-//     }
+    const onRegister = async () => {
+        if(body==""){
+            alert("내용을 입력해주세요.")
+        }else{
+            const data = {sid, uid:sessionStorage.getItem("uid"), body}
+            await axios.post(`/market/comment/insert`, data);
+            setBody('');
+            getComment();
+        }
+    }
 
-//     useEffect(() => {
-//         getComment();
-//     }, [location, sid, page, size]);
+    useEffect(() => {
+        getComment();
+    }, [page]);
 
-//     useEffect(() => {
-//         let cnt = 0;
-//         comments.forEach(market => market.checked && cnt++);
-//         setChcnt(cnt);
-//     }, [comments]);
+    const onClickLogin = () => {
+        sessionStorage.setItem("target", `/market/read/${sid}`);
+        window.location.href = "/users/login"
+    }
+    const onClickBody = (mcid) => {
+        const data = comments.map(c => c.mcid === mcid ? { ...c, ellipsis: !c.ellipsis } : c);
+        setComments(data);
+    }
+    const onDelete = async (mcid) => {
+        if (window.confirm(`${mcid}번 리뷰를 삭제하시겠습니까?`)) {
+            await axios.post(`/market/comment/delete/${mcid}`);
+            getComment();
+        }
+    }
+    const onClickUpdate = (mcid) => {
+        const data = comments.map(c => c.mcid === mcid ? { ...c, view: false } : c);
+        setComments(data);
+    }
+    const onClickCancel = (mcid) => {
+        const data = comments.map(c => c.mcid === mcid ? { ...c, view: true, body:c.text } : c);
+        setComments(data);
+    }
+    const onChangeBody = (e, mcid) => {
+        const data = comments.map(c => c.mcid === mcid ? { ...c, body: e.target.value } : c);
+        setComments(data);
+    }
+    const onClickSave = async (mcid, body, text) => {
+        if(body===text){
+            onClickCancel(mcid);
+        }else{
+            if(window.confirm(`댓글을 수정하시겠습니까?`)){
+                await axios.post(`/market/comment/update`, {mcid, body});
+                alert("수정되었습니다.");
+                getComment();
+            }
+        }
+    }
 
-//     const onDelete = async (sid) => {
-//         if (!window.confirm(`${sid}번 댓글을 삭제하실래요?`)) return;
-//         const res = await axios.get(`/comment/delete/${sid}`);
-//         if (res.data === 0) {
-//             alert("삭제 실패!");
-//         } else {
-//             alert("삭제되었습니다.");
-//             getComment();
-//         }
-//     };
 
-//     const onChangeAll = (e) => {
-//         const list = comments.map(comment => comment && { ...comment, checked: e.target.checked });
-//         setComments(list);
-//     };
+    if (loading) return <div className='my-5 text-center'><Spinner variant='primary' /></div>
+    return (
+        <div>
+            <hr/>
+            {sessionStorage.getItem("uid") ?
+                <div>
+                    <Form.Control as="textarea" rows={5} placeholder='내용를 입력해주세요' onChange={(e) => setBody(e.target.value)} value={body} />
+                    <div className='text-end mt-2'>
+                        <Button className='btn-sm px-3 me-2' onClick={onRegister}>등록</Button>
+                        <Button variant='secondary btn-sm px-3' type='reset'>취소</Button>
+                    </div>
+                </div>
+                :
+                <div className='mb-5'>
+                    <Button className='w-100' onClick={onClickLogin}>로그인</Button>
+                </div>
+            }
+            <div className='text-end'><span>댓글수:{total}</span></div>
+            <hr />
+            <div className='my-5'>
+                {comments.map(c =>
+                    <div key={c.mcid}>
+                        <div className='text-start'>
+                            <small>{c.uid}</small>
+                            <small>({c.regdate})</small>
+                        </div>
+                        {c.view ?
+                            <>
+                                <div className={c.ellipsis && "ellipsis2"}  onClick={() => onClickBody(c.mcid)} style={{ cursor: 'pointer' , textAlign: 'start' }}>[{c.mcid}] {c.text}</div>
+                                {sessionStorage.getItem("uid") === c.uid &&
+                                    <div className='text-end'>
+                                        <Button onClick={() => onClickUpdate(c.mcid)} variant='success btn-sm'>수정</Button>
+                                        <Button onClick={() => onDelete(c.mcid)} variant='danger btn-sm ms-2'>삭제</Button>
+                                    </div>
+                                }
+                            </>
+                            :
+                            <div>
+                                <Form.Control as="textarea" rows={5} value={c.body} onChange={(e)=>onChangeBody(e, c.mcid)} />
+                                <div className='text-end mt-2'>
+                                    <Button className='btn-sm' onClick={()=>onClickSave(c.mcid, c.body, c.text)}>저장</Button>
+                                    <Button variant='secondary btn-sm ms-2' onClick={() => onClickCancel(c.mcid)}>취소</Button>
+                                </div>
+                            </div>
+                        }
+                        <hr />
+                    </div>
+                )}
+            </div>
+            {total > size &&
+                <Pagination
+                    activePage={page}
+                    itemsCountPerPage={size}
+                    totalItemsCount={total}
+                    pageRangeDisplayed={10}
+                    prevPageText={"‹"}
+                    nextPageText={"›"}
+                    onChange={(page)=>setPage(page)} />
+            }
+        </div>
+    )
+}
 
-//     const onChangeSingle = (e, sid) => {
-//         const list = comments.map(comment => comment.sid === sid ? { ...comment, checked: e.target.checked } : comment);
-//         setComments(list);
-//     };
-
-//     const onClickDelete = async (sid) => {
-//         if (chcnt == 0) {
-//             setBox({
-//                 show: true,
-//                 message: '삭제할 댓글을 선택하세요!'
-//             })
-//         } else {
-//             let count = 0;
-//             setBox({
-//                 show: true,
-//                 message: `${chcnt}개의 댓글을 삭제 하실래요?`,
-//                 action: async () => {
-//                     for (const comment of comments) {
-//                         if (comment.checked) {
-//                             const res = await axios.post(`/comment/delete`, { sid: comment.sid });
-//                             if (res.data === 1) count++;
-//                         }
-//                     }
-//                     setComments({ show: true, message: `${count}개의 댓글이 삭제 되었습니다!` });
-//                     navi(`${path}?page=1&sid=${sid}&size=${size}`);
-//                 }
-//             });
-//         }
-//     };
-
-//     if (loading) return <div className='my-5 text-center'><Spinner variant='primary' /></div>
-//     return (
-//         <div className='content_texts'>
-//             <Row>
-//                 <div className='text-end'>
-//                     <button className='post-view-go-list-btn' onClick={() => navi('/market/insert')}>게시글쓰기</button>
-//                 </div>
-//             </Row>
-//             <hr />
-//             <Table>
-//                 <thead>
-//                     <tr className='text-center'>
-//                         <th>작성자</th><th>내용</th><th>작성일</th>
-//                         <td><input checked={markets.length === chcnt}
-//                             type='checkbox' onChange={onChangeAll} /></td>
-//                     </tr>
-//                 </thead>
-//                 <tbody className='text-center'>
-//                     {markets.map(market =>
-//                         <tr key={market.sid}>
-//                             <td>{market.sid}</td>
-//                             <td width="30%">
-//                                 <Link to={`/market/read/${market.sid}`}>
-//                                     <div className='ellipsis'>{market.title}</div>
-//                                 </Link>
-//                             </td>
-//                             <td>{market.uid}</td>
-//                             <td>{market.fmtdate}</td>
-//                             <td>{market.fmtprice}</td>
-//                             <td>{market.category}</td>
-//                             <td><input onChange={(e) => onChangeSingle(e, market.sid)}
-//                                 type='checkbox' checked={market.checked} /></td>
-//                             <td><Button onClick={() => onDelete(market.sid)}
-//                                 size='sm' variant="info">삭제</Button></td>
-//                         </tr>
-//                     )}
-//                 </tbody>
-//             </Table>
-//             <div className='text-end'>
-//                 <button className='post-view-go-list-btn'
-//                     onClick={onClickDelete}>선택삭제</button>
-//             </div>
-//             {total > size &&
-//                 <Pagination
-//                     activePage={page}
-//                     itemsCountPerPage={size}
-//                     totalItemsCount={total}
-//                     pageRangeDisplayed={10}
-//                     prevPageText={"‹"}
-//                     nextPageText={"›"}
-//                     onChange={onChangePage} />
-//             }
-//         </div>
-//     )
-// }
-
-// export default CommentList
+export default CommentList

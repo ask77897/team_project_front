@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import { useParams } from 'react-router';
-import Comments from '../comment/Comments';
+import CommentList from '../comment/CommentList';
 
 const MarkPage = () => {
     const { sid } = useParams();
@@ -37,25 +37,26 @@ const MarkPage = () => {
 
     return (
         <div>
-            <div className='ellipsis'><h2>아이디: {markets.uid}</h2></div>
-            <Card className='p-5'>
-                <Row>
-                    <Col lg={3} xs={3} md={3} className='align-self-center'>
-                        <img src={markets.image || "http://via.placeholder.com/200x200"} width="100%" />
-                    </Col>
-                    <Col className='ms-3'>
-                        <h2 className='ellipsis'>{markets.title}</h2>
-                        <h3 className='ellipsis'>가격: {markets.fmtprice}원</h3>
-                        <hr />
-                        <h4 className='ellipsis'>등록일: {markets.fmtdate}</h4>
-                        <h4 className='ellipsis'>상품 상태: {markets.category}</h4>
-                        <h4 className='ellipsis'>내용: {markets.contents}</h4>
-                        <div>
-                            <Comments />
-                        </div>
-                    </Col>
-                </Row>
-            </Card>
+            <Row>
+                <Col md={6} className='align-self-center my-3'>
+                    <img src={`/display?file=${markets.photo}` || "http://via.placeholder.com/200x200"} width="50%" />
+                </Col>
+                <Col className='ms-3 mt-5 text-start'>
+                    <h2 className='ellipsis'>{markets.title}</h2>
+                    <h3 className='ellipsis'>가격: {markets.fmtprice}원</h3>
+                    <hr />
+                    <p className='ellipsis my-2'>판매자 : {markets.uid}</p>
+                    <p className='ellipsis my-2'>상품 상태 : {markets.str_category}</p>
+                    <p className='ellipsis my-2'>등록일 : {markets.fmtdate}</p>
+                </Col>
+                <hr />
+                <div>
+                    <h3 className='ellipsis'>내용: {markets.contents}</h3>
+                </div>
+            </Row>
+            <div>
+                <CommentList sid={sid} />
+            </div>
         </div>
     );
 };
