@@ -18,11 +18,11 @@ const MyPage = () => {
         address2: '',
         fmtdate: '',
         fmtmodi: '',
-        photo: '',
+        image: '',
         file: null
     });
 
-    const { uid, email, phone, uname, address1, address2, fmtdate, fmtmodi, photo } = user;
+    const { uid, email, phone, uname, address1, address2, fmtdate, fmtmodi, image } = user;
 
     const getUser = async () => {
         setLoading(true);
@@ -39,7 +39,7 @@ const MyPage = () => {
     const onChangeFile = (e) => {
         setUser({
             ...user,
-            photo: URL.createObjectURL(e.target.files[0]),
+            image: URL.createObjectURL(e.target.files[0]),
             file: e.target.files[0]
         });
     }
@@ -87,7 +87,7 @@ const MyPage = () => {
                     <Card className='p-5'>
                         <div>
                             <img onClick={() => ref_file.current.click()}
-                                src={photo || "http://via.placeholder.com/200x200"} width="100" className='photo' />
+                                src={image || "http://via.placeholder.com/200x200"} width="300" className='image' />
                             <input type="file" ref={ref_file} onChange={onChangeFile} style={{ display: 'none' }} />
                             <br />
                             <hr />

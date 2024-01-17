@@ -1,17 +1,18 @@
-import Button from 'react-bootstrap/esm/Button';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './Home.css'
-import '../index.css'
-import InfiniteScroll from 'react-infinite-scroll-component';
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Col, Row } from 'react-bootstrap';
-import { IoIosSearch } from "react-icons/io";
-import { PiCoffeeFill } from "react-icons/pi";
+import { Button, Col, Row } from 'react-bootstrap';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { IoIosSearch, IoMdMenu } from 'react-icons/io';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Home.css';
+import '../index.css';
 
 const HomePage = () => {
     const navi = useNavigate();
+    const [showSidebar, setShowSidebar] = useState(false);
     const [dataSourse, setDataSource] = useState(Array.from({ length: 100 }));
     const [schoolNames, setSchoolNames] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -19,9 +20,12 @@ const HomePage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredSchools, setFilteredSchools] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const location = useLocation();
     const [userImage, setUserImage] = useState('');
     const [userName, setUserName] = useState('');
+
+    const handleHamburgerClick = () => {
+        setShowSidebar(!showSidebar);
+    };
 
     const fetchUserData = async () => {
         try {
@@ -129,34 +133,29 @@ const HomePage = () => {
 
     return (
         <div className='wrap'>
-            <Row style={{ justifyContent: 'center' }} className="container text-center">
-                <Col style={{ marginBottom: '100px', justifyContent: 'center' }} className='box'>
-                    <div style={{ width: '100%' }} className='box-contents'>
-                        <div>
-                            <div style={{ marginBottom: "50px" }} className='image01'>
-                                <PiCoffeeFill style={{ color: 'chocolate' }} />
-                            </div>
-                        </div>
-                        <div className='text-center'>
-                            <div className='content_text'>
-                                <div className='content_title'>
-                                    <b>모두가 참여할 수 있는</b>
-                                    <br />
-                                    <b>프리타임</b>
-                                </div>
-                            </div>
+            {/* 모바일 화면에서만 햄버거 아이콘을 보여줌 */}
+            <div className={`hamburger-icon ${showSidebar ? 'hide-on-mobile' : ''}`} onClick={handleHamburgerClick}>
+                <GiHamburgerMenu style={{ fontSize: '40px', position: 'fixed', top: '90px', right: '10px'}}/>
+            </div>
+            <Row style={{ justifyContent: 'center', marginRight: '400px' }} className="container text-center">
+                <Col className='box'>
+                    <div style={{ width: '1000px' }} className='box-contents'>
+                        <div style={{ marginLeft: '500px' }}>
+                            <img style={{ width: '900px', borderRadius: '15px', marginTop: '15px' }} src='https://img.freepik.com/free-photo/coffee-ai-generated_23-2150691619.jpg' alt='Coffee' />
                         </div>
                     </div>
                     <div>
-                        <aside className='box-sidebar'>
+                        {/* PC 화면에서 사이드바를 보여주지 않음 */}
+                        <aside className={`box-sidebar ${showSidebar ? 'show' : ''}`}>
                             <div>
-                                <div className='freebox' style={{ width: '230px', position: 'absolute' }}>
+                                <div className='freebox' style={{ width: '230px', position: 'absolute', marginTop: '0px' }}>
                                     <div className='sidebox' style={{ backgroundColor: 'white' }}>
-                                        <div style={{ marginTop: '30px' }} ><p style={{ fontSize: '60px' }}><b>프리타임</b></p>
+                                        <div style={{ marginTop: '30px' }}>
+                                            <p style={{ fontSize: '45px' }}><b>프리타임</b></p>
                                             <div className='content_texts'>
                                                 {isLoggedIn && (
                                                     <div>
-                                                        <img src={userImage} alt="사용자" width="120" className='user-photo' />
+                                                        <img style={{ borderRadius: '15px' }} src={userImage} alt="사용자" width="150" className='user-photo' />
                                                         <div className='user-name'>{userName}님</div>
                                                     </div>
                                                 )}
@@ -178,7 +177,7 @@ const HomePage = () => {
                                                     )}
                                                 </div>
                                                 <hr />
-                                                <div className='mt-5'>
+                                                <div>
                                                     <p><b>내 대학교 찾아보기</b></p>
                                                 </div>
                                                 <input

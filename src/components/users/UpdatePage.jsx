@@ -14,19 +14,19 @@ const UpdatePage = () => {
         email: '',
         upass: '',
         uname: '',
-        photo: '',
+        image: '',
         phone: '',
         address1: '',
         address2: ''
     });
 
-    const { uid, uname, phone, address1, address2, photo } = user;
+    const { uid, uname, phone, address1, address2, image } = user;
 
     const onChangeFile = (e) => {
         setFile(e.target.files[0]);
         setUser({
             ...user,
-            photo: URL.createObjectURL(e.target.files[0]),
+            image: URL.createObjectURL(e.target.files[0]),
         });
     };
 
@@ -90,9 +90,8 @@ const UpdatePage = () => {
                 });
 
                 const res = await axios.post('/users/update', user);
-                if (res.data) {
+                if (res.status === 200) {
                     alert("정보가 수정되었습니다.");
-                    getUser();
                     navi('/users/mypage');
                 } else {
                     alert("정보수정이 실패했습니다.");
@@ -114,7 +113,7 @@ const UpdatePage = () => {
                     <Card className='p-5'>
                         <div>
                             <img onClick={() => ref_file.current.click()}
-                                src={photo || "http://via.placeholder.com/200x200"} width="100" className='photo' />
+                                src={image || "http://via.placeholder.com/200x200"} width="300" className='image' />
                             <input type="file" ref={ref_file} onChange={onChangeFile} style={{ display: 'none' }} />
                             <br />
                             <hr />
