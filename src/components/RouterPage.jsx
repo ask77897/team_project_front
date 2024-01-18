@@ -16,6 +16,7 @@ import SignUp from './users/SignUp';
 import MyPage from './users/Mypage';
 import UpdatePage from './users/UpdatePage';
 import Mentor from './school/Mentor';
+import TodoList from './users/TodoList';
 
 
 const RouterPage = () => {
@@ -35,6 +36,7 @@ const RouterPage = () => {
                 <Route path="/users/update/" element={<UpdatePage />} />
                 <Route path='/school/calc' element={<Gradcalc />} />
                 <Route path='/school/mentor' element={<Mentor />} />
+                <Route path='/school/todo' element={<TodoList />} />
 
                 <Route path='/market/list' element={<MarkList />} />
                 <Route path='/market/read/:sid' element={<MarkPage />} />

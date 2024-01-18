@@ -28,7 +28,7 @@ const HeaderPage = () => {
                         <NavLink href="/school/talk" title='낮게 나오면 한강각!'><BsCalculator style={{ marginRight: '5px' }} />학점계산기</NavLink>
                         <NavLink href="/market/list" title='필요없는 전공책 쌓지 말고 팔자!'><GiBlackBook style={{ marginRight: '5px' }} />책방</NavLink>
                         <NavLink href="/school/mentor" title='공부대화 나누자!!'><IoPersonSharp style={{ marginRight: '5px' }} />멘토</NavLink>
-                        <NavLink href="/school/mentor" title='할 일을 미루지 말자!'><FaListAlt style={{ marginRight: '5px' }} />할일</NavLink>
+                        <NavLink href="/school/todo" title='할 일을 미루지 말자!'><FaListAlt style={{ marginRight: '5px' }} />할일</NavLink>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

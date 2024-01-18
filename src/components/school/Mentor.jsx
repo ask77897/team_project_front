@@ -37,10 +37,6 @@ const MentorMenteeChat = () => {
                 />
                 <Button variant='warning' onClick={addComment} style={{ padding: '12px', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '16px' }}>댓글 추가</Button>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Button variant='info' onClick={() => setCommentUser('mentor')}>멘토로 전환</Button>
-                <Button variant='info' onClick={() => setCommentUser('mentee')}>멘티로 전환</Button>
-            </div>
         </div>
     );
 };

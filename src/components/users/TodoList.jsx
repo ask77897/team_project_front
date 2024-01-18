@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import '../App.css';
+import '../../App.css';
 import { IoArrowBack } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 import { IoMdAdd } from "react-icons/io";
 import { FaCheck } from "react-icons/fa6";
 import { TiDelete } from "react-icons/ti";
+import { Button } from 'react-bootstrap';
 
 const TodoList = () => {
 
@@ -89,9 +90,6 @@ const TodoList = () => {
 							</div>
 						</div>
 					)}
-                <div className='text-end'>
-                    <Link to={"/home"}><button className="post-view-go-list-btn"><IoArrowBack /></button></Link>
-                </div>
 				</div>
 			</div>
 		</div>
