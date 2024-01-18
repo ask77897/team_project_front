@@ -92,8 +92,8 @@ const CommentList = ({sid}) => {
                 <div>
                     <Form.Control as="textarea" rows={5} placeholder='내용를 입력해주세요' onChange={(e) => setBody(e.target.value)} value={body} />
                     <div className='text-end mt-2'>
-                        <Button className='btn-sm px-3 me-2' onClick={onRegister}>등록</Button>
-                        <Button variant='secondary btn-sm px-3' type='reset'>취소</Button>
+                        <Button variant='warning btn-sm px-3 me-2' style={{ marginLeft: '5px', borderRadius: '20px',  fontSize: '13px', color: 'black' }} onClick={onRegister}>등록</Button>
+                        <Button variant='outline-warning btn-sm px-3' style={{ backgroundColor: 'dark', borderRadius: '20px', fontSize: '13px', color: 'black' }} type='reset'>취소</Button>
                     </div>
                 </div>
                 :
@@ -101,7 +101,7 @@ const CommentList = ({sid}) => {
                     <Button className='w-100' onClick={onClickLogin}>로그인</Button>
                 </div>
             }
-            <div className='text-end'><span>댓글수:{total}</span></div>
+            <div className='text-end mt-2'><span>댓글수:{total}</span></div>
             <hr />
             <div className='my-5'>
                 {comments.map(c =>
@@ -115,8 +115,8 @@ const CommentList = ({sid}) => {
                                 <div className={c.ellipsis && "ellipsis2"}  onClick={() => onClickBody(c.mcid)} style={{ cursor: 'pointer' , textAlign: 'start' }}>[{c.mcid}] {c.text}</div>
                                 {sessionStorage.getItem("uid") === c.uid &&
                                     <div className='text-end'>
-                                        <Button onClick={() => onClickUpdate(c.mcid)} variant='success btn-sm'>수정</Button>
-                                        <Button onClick={() => onDelete(c.mcid)} variant='danger btn-sm ms-2'>삭제</Button>
+                                        <Button onClick={() => onClickUpdate(c.mcid)} variant='warning btn-sm' style={{ marginLeft: '5px', borderRadius: '20px',  fontSize: '13px', color: 'black' }}>수정</Button>
+                                        <Button onClick={() => onDelete(c.mcid)} variant='outline-warning btn-sm ms-2' style={{ backgroundColor: 'dark', borderRadius: '20px', fontSize: '13px', color: 'black' }}>삭제</Button>
                                     </div>
                                 }
                             </>
@@ -124,8 +124,8 @@ const CommentList = ({sid}) => {
                             <div>
                                 <Form.Control as="textarea" rows={5} value={c.body} onChange={(e)=>onChangeBody(e, c.mcid)} />
                                 <div className='text-end mt-2'>
-                                    <Button className='btn-sm' onClick={()=>onClickSave(c.mcid, c.body, c.text)}>저장</Button>
-                                    <Button variant='secondary btn-sm ms-2' onClick={() => onClickCancel(c.mcid)}>취소</Button>
+                                    <Button variant='warning btn-sm'  onClick={()=>onClickSave(c.mcid, c.body, c.text)} style={{ backgroundColor: 'dark', borderRadius: '20px', fontSize: '13px', color: 'black' }}>저장</Button>
+                                    <Button variant='outline-warning btn-sm ms-2' style={{ backgroundColor: 'dark', borderRadius: '20px', fontSize: '13px', color: 'black' }} onClick={() => onClickCancel(c.mcid)}>취소</Button>
                                 </div>
                             </div>
                         }
