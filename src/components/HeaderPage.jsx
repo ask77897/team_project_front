@@ -9,6 +9,7 @@ import { GiBlackBook } from "react-icons/gi";
 import { BsCalculator } from "react-icons/bs";
 import { GrSchedule } from "react-icons/gr";
 import { HiOutlineClipboardList } from "react-icons/hi";
+import { IoPersonSharp } from "react-icons/io5";
 
 
 const HeaderPage = () => {
@@ -25,6 +26,7 @@ const HeaderPage = () => {
                         <NavLink href="/users/calender" title='계획은 철저하게!'><GrSchedule style={{marginRight:'5px'}}/>일정관리</NavLink>
                         <NavLink href="/school/talk" title='낮게 나오면 한강각!'><BsCalculator style={{marginRight:'5px'}}/>학점계산기</NavLink>
                         <NavLink href="/market/list" title='필요없는 전공책 쌓지 말고 팔자!'><GiBlackBook style={{marginRight:'5px'}}/>책방</NavLink>
+                        <NavLink href="/school/mentor" title='공부대화 나누자!!'><IoPersonSharp  style={{marginRight:'5px'}}/>멘토</NavLink>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

@@ -44,9 +44,9 @@ const MyPage = () => {
         });
     }
 
-    
+
     const formatDateTime = (datetimeString) => {
-        const options = { year: 'numeric', month: '2-digit', day: '2-digit'};
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
         const datetime = new Date(datetimeString);
         return datetime.toLocaleDateString(undefined, options);
     };
@@ -86,9 +86,19 @@ const MyPage = () => {
                 <Col md={8}>
                     <Card className='p-5'>
                         <div>
-                            <img onClick={() => ref_file.current.click()}
-                                src={image || "http://via.placeholder.com/200x200"} width="300" className='image' />
-                            <input type="file" ref={ref_file} onChange={onChangeFile} style={{ display: 'none' }} />
+                            <label htmlFor="fileInput">
+                                <img
+                                    src={image || "http://via.placeholder.com/200x200"}
+                                    width="300"
+                                    className='image'
+                                    style={{borderRadius:'20px'}}// 이미지 클릭 시 커서를 포인터로 변경
+                                />
+                            </label>
+                            <input
+                                id="fileInput"
+                                onChange={onChangeFile}
+                                style={{ display: 'none' }}
+                            />
                             <br />
                             <hr />
                         </div>
