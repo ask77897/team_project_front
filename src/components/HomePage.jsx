@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Col, Row } from 'react-bootstrap';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { IoIosSearch, IoMdMenu } from 'react-icons/io';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
+import Button from 'react-bootstrap/esm/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Home.css';
-import '../index.css';
+import './Home.css'
+import '../index.css'
+import InfiniteScroll from 'react-infinite-scroll-component';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Col, Row } from 'react-bootstrap';
+import { IoIosSearch } from "react-icons/io";
+import axios from 'axios';
 
 const HomePage = () => {
     const navi = useNavigate();
-    const [showSidebar, setShowSidebar] = useState(false);
     const [dataSourse, setDataSource] = useState(Array.from({ length: 100 }));
     const [schoolNames, setSchoolNames] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -20,12 +18,9 @@ const HomePage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredSchools, setFilteredSchools] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const location = useLocation();
     const [userImage, setUserImage] = useState('');
     const [userName, setUserName] = useState('');
-
-    const handleHamburgerClick = () => {
-        setShowSidebar(!showSidebar);
-    };
 
     const fetchUserData = async () => {
         try {
@@ -133,25 +128,19 @@ const HomePage = () => {
 
     return (
         <div className='wrap'>
-            {/* 모바일 화면에서만 햄버거 아이콘을 보여줌 */}
-            <div className={`hamburger-icon ${showSidebar ? 'hide-on-mobile' : ''}`} onClick={handleHamburgerClick}>
-                <GiHamburgerMenu style={{ fontSize: '40px', position: 'fixed', top: '90px', right: '10px'}}/>
-            </div>
-            <Row style={{ justifyContent: 'center', marginRight: '400px' }} className="container text-center">
+            <Row style={{ justifyContent: 'center', marginRight: '300px' }} className="container text-center">
                 <Col className='box'>
-                    <div style={{ width: '1000px' }} className='box-contents'>
-                        <div style={{ marginLeft: '500px' }}>
-                            <img style={{ width: '900px', borderRadius: '15px', marginTop: '15px' }} src='https://img.freepik.com/free-photo/coffee-ai-generated_23-2150691619.jpg' alt='Coffee' />
+                    <div style={{ width: '900px' }} className='box-contents'>
+                        <div style={{marginLeft:'400px'}}>
+                            <img style={{ width: '900px', borderRadius: '15px',marginTop:'10px' }} src='https://img.freepik.com/free-photo/coffee-ai-generated_23-2150691619.jpg' />
                         </div>
                     </div>
                     <div>
-                        {/* PC 화면에서 사이드바를 보여주지 않음 */}
-                        <aside className={`box-sidebar ${showSidebar ? 'show' : ''}`}>
+                        <aside className='box-sidebar'>
                             <div>
                                 <div className='freebox' style={{ width: '230px', position: 'absolute', marginTop: '0px' }}>
                                     <div className='sidebox' style={{ backgroundColor: 'white' }}>
-                                        <div style={{ marginTop: '30px' }}>
-                                            <p style={{ fontSize: '45px' }}><b>프리타임</b></p>
+                                        <div style={{ marginTop: '10px' }} ><p style={{ fontSize: '45px' }}><b>프리타임</b></p>
                                             <div className='content_texts'>
                                                 {isLoggedIn && (
                                                     <div>
