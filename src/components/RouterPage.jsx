@@ -17,6 +17,7 @@ import MyPage from './users/Mypage';
 import UpdatePage from './users/UpdatePage';
 import Mentor from './school/Mentor';
 import TodoList from './users/TodoList';
+import KakaoLogin from './users/KakaoLogin';
 
 
 const RouterPage = () => {
@@ -31,6 +32,7 @@ const RouterPage = () => {
 
                 <Route path='/users/calender' element={<TimetableMonth />} />
                 <Route path="/users/login/" element={<Login />} />
+                <Route path="/users/kakaoLogin/" element={<KakaoLogin />} />
                 <Route path="/users/signup/" element={<SignUp />} />
                 <Route path="/users/mypage/" element={<MyPage />} />
                 <Route path="/users/update/" element={<UpdatePage />} />

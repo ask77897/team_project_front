@@ -24,25 +24,39 @@ const HomePage = () => {
 
     const fetchUserData = async () => {
         try {
-            const response = await axios.get(`/users/read?uid=${sessionStorage.getItem("uid")}`);
-            const userData = response.data;
+            let userData;
 
-            setUserImage(userData.image || "http://via.placeholder.com/50x50"); // 사용자 이미지가 없을 경우 기본 이미지 설정
-            setUserName(userData.uname);
+            if (sessionStorage.getItem("uid") != null) {
+                // 일반 로그인
+                userData = await axios.get(`/users/read?uid=${sessionStorage.getItem("uid")}`);
+            } else if (sessionStorage.getItem("kakaoName") != null) {
+                // 카카오 로그인
+                userData = {
+                    data: {
+                        uname: sessionStorage.getItem("kakaoName"),
+                        image: sessionStorage.getItem("kakaoImage") || "http://via.placeholder.com/50x50",
+                    },
+                };
+            }
+
+            setUserImage(userData.data.image || "http://via.placeholder.com/50x50");
+            setUserName(userData.data.uname);
         } catch (error) {
             console.error('사용자 데이터를 불러오는 데 실패했습니다:', error);
         }
     };
 
-    useEffect(() => {
-        api();
-        if (sessionStorage.getItem("uid") != null) {
-            setIsLoggedIn(true);
-            fetchUserData();
-        } else {
-            setIsLoggedIn(false);
-        }
-    }, []);
+    // useEffect(() => {
+    //     api();
+    //     if (sessionStorage.getItem("uid") != null) {
+    //         setIsLoggedIn(true);
+    //         fetchUserData();
+    //     } else if (sessionStorage.getItem("kakaoName") != null) {
+    //         setIsLoggedIn(true);
+    //     } else {
+    //         setIsLoggedIn(false);
+    //     }
+    // }, []);
 
     const handleGoHome = () => {
         navi('/home');
@@ -118,21 +132,31 @@ const HomePage = () => {
 
     useEffect(() => {
         api();
-        if (sessionStorage.getItem("uid") != null) {
+
+        const kakaoName = sessionStorage.getItem('kakaoName');
+        const kakaoImage = sessionStorage.getItem('kakaoImage');
+        setUserName(kakaoName || userName);
+        setUserImage(kakaoImage);
+
+        console.log("main");
+        console.log(kakaoName);
+        console.log(kakaoImage);
+
+        if (sessionStorage.getItem("uid") != null || sessionStorage.getItem("kakaoName") != null) {
             setIsLoggedIn(true);
+            fetchUserData();
         } else {
             setIsLoggedIn(false);
         }
 
     }, []);
-
     return (
         <div className='wrap'>
             <Row style={{ justifyContent: 'center', marginRight: '300px' }} className="container text-center">
                 <Col className='box'>
                     <div style={{ width: '900px' }} className='box-contents'>
-                        <div style={{marginLeft:'400px'}}>
-                            <img style={{ width: '900px', borderRadius: '15px',marginTop:'10px' }} src='https://img.freepik.com/free-photo/coffee-ai-generated_23-2150691619.jpg' />
+                        <div style={{ marginLeft: '400px' }}>
+                            <img style={{ width: '900px', borderRadius: '15px', marginTop: '10px' }} src='https://img.freepik.com/free-photo/coffee-ai-generated_23-2150691619.jpg' />
                         </div>
                     </div>
                     <div>
@@ -144,8 +168,8 @@ const HomePage = () => {
                                             <div className='content_texts'>
                                                 {isLoggedIn && (
                                                     <div>
-                                                        <img style={{ borderRadius: '15px' }} src={userImage} alt="사용자" width="150" className='user-photo' />
-                                                        <div className='user-name'>{userName}님</div>
+                                                        <img style={{ borderRadius: '15px' }} src={userImage} width="100" className='user-photo' />
+                                                        <div className='user-name'>{userName && `${userName}님`}</div>
                                                     </div>
                                                 )}
                                                 <div className='store_links'>
