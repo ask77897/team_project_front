@@ -11,6 +11,13 @@ const Login = () => {
 	const ref_uid = useRef(null);
 	const refIDInput = useRef(null);
 	const refPasswordInput = useRef(null);
+	const Rest_api_key = 'b1c8c7cf7c907713ad7eab624830d666' //REST API KEY
+	const redirect_uri = 'http://localhost:3000/users/kakaoLogin' //Redirect URI
+	const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
+
+	const handleKakaoLogin = () => {
+			window.location.href = kakaoURL;
+	};
 
 	const onClickLogin = async (e) => {
 		e.preventDefault();
@@ -29,8 +36,8 @@ const Login = () => {
 
 		try {
 			const res = await axios.post('/users/login', {
-			  uid: userid,
-			  upass: password
+				uid: userid,
+				upass: password
 			});
 
 			if (res.data === 0) {
@@ -92,7 +99,7 @@ const Login = () => {
 							onChange={(e) => setPassword(e.target.value)}
 						/>
 					</Form.Group>
-					<Button style={{ marginTop: '10px', borderRadius:'20px' }} variant='warning' type='button' onClick={onClickLogin}>
+					<Button style={{ marginTop: '10px', borderRadius: '20px' }} variant='warning' type='button' onClick={onClickLogin}>
 						프리타임 로그인
 					</Button>
 				</Form>
@@ -100,11 +107,8 @@ const Login = () => {
 			<hr />
 			<h3 className='text-center'>SNS로그인</h3>
 			<div className='sns_login text-center'>
-				<Button style={{ backgroundColor: 'white' }} className='kakao_login'>
-					<img src='//static.011st.com/assets/img/svg/member/sns-kakao.svg' alt='카카오' />
-				</Button>
-				<Button style={{ backgroundColor: 'white' }} className='naver_login'>
-					<img src='//static.011st.com/assets/img/svg/member/sns-naver.svg' alt='네이버' />
+				<Button style={{ backgroundColor: 'white' }} className='kakao_login' onClick={handleKakaoLogin}>
+					<img style={{ backgroundColor: 'white', borderRadius: '15px', width: '50px', height: '50px' }} src='https://oopy.lazyrockets.com/api/v2/notion/image?src=https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Ff5d7b9d3-6faa-4fbd-92fb-abc13883f4ac%2Fkakao.png&blockId=845a0760-d543-46ae-965d-018c4289eb32&width=256' />
 				</Button>
 			</div>
 		</div>
