@@ -6,7 +6,7 @@ import MarkList from './market/MarkList';
 import MarkInsert from './market/MarkInsert';
 import PostList from './post/PostList';
 import SubHomePage from './SubHomePage';
-import Gradcalc from './gradcal/GradCalc';
+import Gradcalc from './school/GradCalc';
 import MarkPage from './market/MarkPage';
 import CommentList from './comment/CommentList';
 import Comments from './comment/Comments';
@@ -16,7 +16,7 @@ import SignUp from './users/SignUp';
 import MyPage from './users/Mypage';
 import UpdatePage from './users/UpdatePage';
 import Mentor from './school/Mentor';
-import TodoList from './users/TodoList';
+import TodoList from './school/TodoList';
 import KakaoLogin from './users/KakaoLogin';
 
 

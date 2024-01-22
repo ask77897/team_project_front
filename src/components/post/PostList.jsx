@@ -159,7 +159,7 @@ const PostList = () => {
                                 </div>
                             </td>
                             <td>{postlists.writer}</td>
-                            <td>{postlists.regdate}</td>
+                            <td>{postlists.fmtdate}</td>
                             <td><Button variant='warning' style={{ borderRadius: '20px', fontSize: '13px' }} onClick={() => onDelete(postlists.pid)}
                                 size='sm'><RiDeleteBinLine /></Button></td>
                         </tr>
