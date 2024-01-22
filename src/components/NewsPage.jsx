@@ -31,6 +31,7 @@ const NewsPage = () => {
         const res = await axios(url, config);
         console.log(res.data);
         let docs = res.data.documents;
+        docs = docs.slice(0, 5);
         docs = docs.map(doc => doc && { ...doc, checked: false });
         setNowss(docs);
         setTotal(res.data.meta.pageable_count);
@@ -63,16 +64,16 @@ const NewsPage = () => {
     }
 
     const onChangeEllipsis = (url) => {
-        const list=nowss.map(u=>u.url===url ? {...u, ellipsis:!u.ellipsis} : u);
+        const list = nowss.map(u => u.url === url ? { ...u, ellipsis: !u.ellipsis } : u);
         setNowss(list);
     }
 
     return (
-        <div className='card'>
+        <div style={{marginTop:'20px'}}>
             <div onClick={() => onChangeEllipsis(nowss.url)} style={{ cursor: 'pointer' }}>
                 <Table striped>
                     <thead onSubmit={onSubmit}>
-                        <h5 className='text-center' style={{fontSize: '50px'}}><b>오늘의 뉴스</b></h5>
+                        <h5 className='text-center' style={{ fontSize: '40px' }}><b>오늘의 뉴스</b></h5>
                         {nowss.map(nows =>
                             <tr className='board' key={nows.url}>
                                 <td>

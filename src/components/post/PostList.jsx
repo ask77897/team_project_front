@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Col, InputGroup, Row, Form, Table, Spinner, Button } from 'react-bootstrap'
+import React, { useContext, useEffect, useState } from 'react';
+import { Col, InputGroup, Row, Form, Table, Spinner, Button, Modal } from 'react-bootstrap';
 import { useLocation, useNavigate, NavLink, Link } from 'react-router-dom';
 import { BoxContext } from '../BoxContext';
 import axios from 'axios';
@@ -10,7 +10,6 @@ import { MdDeleteForever } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
 
 const PostList = () => {
-
     const { box, setBox } = useContext(BoxContext);
     const size = 5;
     const location = useLocation();
@@ -18,12 +17,13 @@ const PostList = () => {
     const path = location.pathname;
     const search = new URLSearchParams(location.search);
     const page = search.get("page") ? parseInt(search.get("page")) : 1;
-    const [query, setQuery] = useState(search.get("query") ? search.get("query") : "");
-    console.log(path, query, page, size);
+    const [query, setQuery] = useState(search.get("query") || "");
+    const [content, setContent] = useState("");
     const [postlists, setPostLists] = useState([]);
     const [loading, setLoading] = useState(false);
     const [total, setTotal] = useState(0);
     const [chcnt, setChcnt] = useState(0);
+    const [selectedPost, setSelectedPost] = useState(null);
 
     const getPostLists = async () => {
         const url = `/posts/list.json?query=${query}&page=${page}&size=${size}`;
@@ -37,17 +37,14 @@ const PostList = () => {
                 setPostLists(list);
                 setTotal(res.data.total);
             } else {
-                // 적절한 오류 처리 또는 로그를 추가할 수 있습니다.
-                console.error("Invalid response data format");
+                console.error("잘못된 응답 데이터 형식");
             }
         } catch (error) {
-            // 오류 처리 로직을 추가할 수 있습니다.
-            console.error("Error fetching data:", error);
+            console.error("데이터 가져오기 오류:", error);
         } finally {
             setLoading(false);
         }
     };
-
 
     useEffect(() => {
         getPostLists();
@@ -91,11 +88,11 @@ const PostList = () => {
     };
 
     const onClickDelete = async () => {
-        if (chcnt == 0) {
+        if (chcnt === 0) {
             setBox({
                 show: true,
                 message: '삭제할 게시판을 선택하세요!'
-            })
+            });
         } else {
             let count = 0;
             setBox({
@@ -115,10 +112,21 @@ const PostList = () => {
         }
     };
 
-    if (loading) return <div className='my-5 text-center'><Spinner variant='primary' /></div>
+    // 추가: 게시글 선택 시 모달에 정보 표시
+    const onPostSelect = (post) => {
+        setSelectedPost(post);
+    };
+
+    // 추가: 모달 닫기
+    const closeModal = () => {
+        setSelectedPost(null);
+    };
+
+    if (loading) return <div className='my-5 text-center'><Spinner variant='primary' /></div>;
 
     return (
-        <div className='content_texts'><h3 className='my-4'>자유게시판</h3>
+        <div className='content_texts'>
+            <h3 className='my-4'>자유게시판</h3>
             <Row>
                 <Col md={4}>
                     <form onSubmit={onSubmit}>
@@ -130,6 +138,7 @@ const PostList = () => {
                     </form>
                 </Col>
                 <div className='text-end'>
+                    {/* 추가: 게시글쓰기 페이지로 이동하는 버튼 */}
                     <Button variant='warning' style={{ borderRadius: '20px', fontSize: '13px' }} onClick={() => navi('/posts/write')}>게시글쓰기</Button>
                 </div>
             </Row>
@@ -155,17 +164,39 @@ const PostList = () => {
                             <td>{postlists.pid}</td>
                             <td width="30%">
                                 <div className='ellipsis'>
-                                    <Link to={`/posts/read/${postlists.pid}`}>{postlists.title}</Link>
+                                    {/* 추가: 게시글 클릭 시 모달에 정보 표시 */}
+                                    <Link to="#" onClick={() => onPostSelect(postlists)}>{postlists.title}</Link>
                                 </div>
                             </td>
                             <td>{postlists.writer}</td>
-                            <td>{postlists.fmtdate}</td>
+                            <td>{postlists.regdate}</td>
                             <td><Button variant='warning' style={{ borderRadius: '20px', fontSize: '13px' }} onClick={() => onDelete(postlists.pid)}
                                 size='sm'><RiDeleteBinLine /></Button></td>
                         </tr>
                     )}
                 </tbody>
             </Table>
+
+            {/* 추가: 게시글 정보를 표시하는 모달 */}
+            <Modal show={selectedPost !== null} onHide={closeModal}>
+                <Modal.Header closeButton className="d-flex justify-content-between">
+                    <Modal.Title>게시글 정보</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {/* 추가: 선택한 게시글 정보 표시 */}
+                    {selectedPost && (
+                        <>
+                            <p>글번호: {selectedPost.pid}</p>
+                            <p>제목: {selectedPost.title}</p>
+                            <p>작성자: {selectedPost.writer}</p>
+                            <p>내용: {selectedPost.contents}</p>
+                            {/* 추가: 닫기 버튼 */}
+                            <Button variant="warning" onClick={closeModal}>닫기</Button>
+                        </>
+                    )}
+                </Modal.Body>
+            </Modal>
+
             {total > size &&
                 <Pagination
                     activePage={page}
@@ -178,7 +209,6 @@ const PostList = () => {
             }
         </div>
     )
-
 }
 
-export default PostList; 
+export default PostList;

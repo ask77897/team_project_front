@@ -1,5 +1,5 @@
 import React from 'react';
-import '../App.css';
+import '../layout/main.css';
 import { Inject, ScheduleComponent, Day, Week, WorkWeek, Month, Agenda, EventSettingsModel } from '@syncfusion/ej2-react-schedule';
 import { DataManager, WebApiAdaptor } from '@syncfusion/ej2-data'
 import { Link } from 'react-router-dom';
