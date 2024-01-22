@@ -27,25 +27,25 @@ function GradCalc() {
 
     const handleScore1Change = (index, value) => {
         // 입력값을 정수로 변환하고 범위를 0에서 100으로 제한합니다.
-    const parsedValue = parseInt(value, 10);
-    const clampedValue = Math.min(Math.max(parsedValue, 0), 100);
+        const parsedValue = parseInt(value, 10);
+        const clampedValue = Math.min(Math.max(parsedValue, 0), 100);
 
-    // subjects 배열을 복제하고 변경된 값으로 업데이트합니다.
-    const newSubjects = [...subjects];
-    newSubjects[index].score1 = clampedValue;
-    setSubjects(newSubjects);
+        // subjects 배열을 복제하고 변경된 값으로 업데이트합니다.
+        const newSubjects = [...subjects];
+        newSubjects[index].score1 = clampedValue;
+        setSubjects(newSubjects);
     };
 
-    
-    const handleScore2Change = (index, value) => {
-    // 입력값을 정수로 변환하고 범위를 1에서 3으로 제한합니다.
-    const parsedValue = parseInt(value, 10);
-    const clampedValue = Math.min(Math.max(parsedValue, 1), 3);
 
-    // subjects 배열을 복제하고 변경된 값으로 업데이트합니다.
-    const newSubjects = [...subjects];
-    newSubjects[index].score2 = clampedValue;
-    setSubjects(newSubjects);
+    const handleScore2Change = (index, value) => {
+        // 입력값을 정수로 변환하고 범위를 1에서 3으로 제한합니다.
+        const parsedValue = parseInt(value, 10);
+        const clampedValue = Math.min(Math.max(parsedValue, 1), 3);
+
+        // subjects 배열을 복제하고 변경된 값으로 업데이트합니다.
+        const newSubjects = [...subjects];
+        newSubjects[index].score2 = clampedValue;
+        setSubjects(newSubjects);
     };
 
     useEffect(() => {
@@ -57,10 +57,10 @@ function GradCalc() {
         const sum1 = subjects.reduce((acc, subject) => acc + subject.score1, 0);
         setTotalScore1(sum1);
         const sum2 = subjects.reduce((acc, subject) => acc + subject.score2, 0);
-      setTotalScore2(sum2);
+        setTotalScore2(sum2);
 
 
-        
+
         // 학점 변환 기준을 정의합니다. 필요에 따라 수정 가능합니다.
         const gradingSystem = {
             A: 90,
@@ -71,33 +71,33 @@ function GradCalc() {
         };
 
         // 총점에 대응하는 학점을 찾습니다.
-        let totalGrade = Object.keys(gradingSystem).find(grade => (sum1/subjects.length) >= gradingSystem[grade]);   ///grade 뒷부분에서 학점계산 로직 작성하기
+        let totalGrade = Object.keys(gradingSystem).find(grade => (sum1 / subjects.length) >= gradingSystem[grade]);   ///grade 뒷부분에서 학점계산 로직 작성하기
         totalGrade = totalGrade || 'F'; // 학점이 없으면 'F'로 기본 설정합니다.
         setTotalGrade(totalGrade);
     };
 
 
-/*
-    const calculateTotal2 = () => {
-      const sum2 = subjects.reduce((acc, subject) => acc + subject.score2, 0);
-      setTotalScore2(sum2);
-      // 학점 변환 기준을 정의합니다. 필요에 따라 수정 가능합니다.
-      const gradingSystem = {
-          A: 90,
-          B: 80,
-          C: 70,
-          D: 60,
-          F: 0,
+    /*
+        const calculateTotal2 = () => {
+          const sum2 = subjects.reduce((acc, subject) => acc + subject.score2, 0);
+          setTotalScore2(sum2);
+          // 학점 변환 기준을 정의합니다. 필요에 따라 수정 가능합니다.
+          const gradingSystem = {
+              A: 90,
+              B: 80,
+              C: 70,
+              D: 60,
+              F: 0,
+          };
+    
+          // 총점에 대응하는 학점을 찾습니다.
+          let totalGrade = Object.keys(gradingSystem).find(grade => sum2 >= gradingSystem[grade]);
+          totalGrade = totalGrade || 'F'; // 학점이 없으면 'F'로 기본 설정합니다.
+          setTotalGrade(totalGrade);
       };
-
-      // 총점에 대응하는 학점을 찾습니다.
-      let totalGrade = Object.keys(gradingSystem).find(grade => sum2 >= gradingSystem[grade]);
-      totalGrade = totalGrade || 'F'; // 학점이 없으면 'F'로 기본 설정합니다.
-      setTotalGrade(totalGrade);
-  };
-*/
+    */
     return (
-        <div className='my-5 mx-5 m-5 p-3'>
+        <div className='my-5'>
             <h1 className='text-center mb-5'>학점 계산기</h1>
             <Row className='justify-content-center'>
                 <Col md={6}>
@@ -141,10 +141,10 @@ function GradCalc() {
                                 </tbody>
                             </Table>
                             <div className='Button text-end'>
-                                <Button id="add" style={{ marginLeft: '5px', borderRadius: '20px',  fontSize: '13px', color: 'black' }} variant="warning px-3" size="sm" onClick={handleAddRow}>
+                                <Button id="add" style={{ marginLeft: '5px', borderRadius: '20px', fontSize: '13px', color: 'black' }} variant="warning px-3" size="sm" onClick={handleAddRow}>
                                     <MdAddCircleOutline /> 추가
                                 </Button>
-                                <Button className="ms-2" id="reset"  style={{ backgroundColor: 'dark', borderRadius: '20px', fontSize: '13px', color: 'black' }} variant="outline-warning px-3" size="sm" onClick={handleReset}>
+                                <Button className="ms-2" id="reset" style={{ backgroundColor: 'dark', borderRadius: '20px', fontSize: '13px', color: 'black' }} variant="outline-warning px-3" size="sm" onClick={handleReset}>
                                     초기화 <GrPowerReset />
                                 </Button>
                                 <hr />

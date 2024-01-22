@@ -155,7 +155,7 @@ const PostList = () => {
                             <td>{postlists.pid}</td>
                             <td width="30%">
                                 <div className='ellipsis'>
-                                    <Link to={`/posts/update/${postlists.pid}`}>{postlists.title}</Link>
+                                    <Link to={`/posts/read/${postlists.pid}`}>{postlists.title}</Link>
                                 </div>
                             </td>
                             <td>{postlists.writer}</td>
